@@ -12,6 +12,7 @@ import { SupportWidget } from "./support-widget";
 import { AppInstallBanner } from "./app-install-banner";
 import { FomoToasts } from "./fomo-toasts";
 import { FloatingEnvelope } from "./floating-envelope";
+import { WelcomeModal } from "./welcome-modal";
 
 export function AppShell({ children }: { children: ReactNode }) {
   const { collapsed } = useSidebar();
@@ -33,6 +34,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <SupportWidget />
         <FomoToasts />
         <FloatingEnvelope />
+        <WelcomeModal />
       </div>
     </div>
   );

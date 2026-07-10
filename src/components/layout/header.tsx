@@ -15,6 +15,19 @@ const LANGUAGES = [
   { code: "BN", label: "বাংলা", flag: "🇧🇩" }
 ];
 
+function JackpotTicker() {
+  const [jackpot, setJackpot] = useState(452194302.55);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setJackpot(prev => prev + (Math.random() * 15) + 5);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return <span>{jackpot.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>;
+}
+
 export function Header() {
   const { user, signOut, refreshUser } = useAuth();
   const { toggle, setMobileOpen } = useSidebar();
@@ -67,7 +80,14 @@ export function Header() {
       <Link href="/" className="bsl-logo ml-2 flex items-end gap-1 text-[25px] font-black leading-none sm:text-[30px]" aria-label="BSL Gaming home">
         <span className="bsl-main">BSL</span><span className="bsl-sub">Gaming</span>
       </Link>
-      <span className="ml-4 hidden rounded-full border border-[#ffdf19]/30 bg-[#ffdf19]/10 px-3 py-1 text-[11px] font-black uppercase text-[#ffdf19] md:inline-flex">Bangladesh • BDT</span>
+      
+      {/* Global Jackpot Ticker */}
+      <div className="ml-4 hidden flex-col justify-center xl:flex">
+        <span className="text-[9px] font-bold uppercase tracking-widest text-[#ffdf19] animate-pulse">Total Platform Jackpot</span>
+        <span className="font-mono text-sm font-black text-white drop-shadow-[0_0_8px_rgba(255,223,25,0.4)]">
+          ৳ <JackpotTicker />
+        </span>
+      </div>
 
       <label className="ml-5 hidden h-10 max-w-[380px] flex-1 items-center rounded-full border border-white/5 bg-black/20 px-4 text-[#858277] focus-within:border-[#ffdf19]/50 xl:flex">
         <Search size={16} />
