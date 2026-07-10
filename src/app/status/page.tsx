@@ -1,0 +1,5 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "System Status" };
+const systems=["Website","Sportsbook odds","Wallet service","bKash gateway","Nagad gateway","Live casino providers","Notification channel"];
+export default function StatusPage(){return <div className="px-3 py-5 sm:px-5"><section className="rounded-2xl border border-[#2a2c30] bg-[#1b1c1e] p-6"><p className="text-xs font-black uppercase tracking-[.2em] text-[#22c55e]">Operational</p><h1 className="mt-2 text-3xl font-black text-[#f0f0f0]">System Status</h1><p className="mt-3 max-w-2xl text-sm leading-6 text-[#9ca3af]">Status page UI for production uptime, provider health and incident communication.</p></section><section className="mt-5 space-y-3">{systems.map((s)=><article key={s} className="flex items-center justify-between rounded-xl border border-[#2a2c30] bg-[#1b1c1e] p-4"><span className="font-bold text-[#f0f0f0]">{s}</span><span className="rounded-full bg-[#22c55e]/10 px-3 py-1 text-xs font-black text-[#22c55e]">Operational</span></article>)}</section></div>}

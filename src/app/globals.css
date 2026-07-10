@@ -1,0 +1,250 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-bg-deep: #0d0f10;
+  --color-bg-base: #121315;
+  --color-bg-surface: #1b1c1e;
+  --color-bg-elevated: #242628;
+  --color-bg-hover: #2d2f32;
+  --color-border: #2a2c30;
+  --color-border-light: #383b3f;
+  --color-primary: #008d5b;
+  --color-primary-light: #00a86d;
+  --color-primary-dark: #006640;
+  --color-gold: #ffdf19;
+  --color-gold-dark: #e5c800;
+  --color-text: #f0f0f0;
+  --color-text-muted: #9ca3af;
+  --color-text-dim: #6b7280;
+  --color-red: #ef4444;
+  --color-green: #22c55e;
+  --font-sans: "Lexend", sans-serif;
+}
+
+@custom-variant dark (&:is(.dark *));
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-bg-base);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+:root {
+  --sidebar-width: 260px;
+  --sidebar-mini: 63px;
+  --header-height: 72px;
+  color-scheme: dark;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--color-bg-base); }
+::-webkit-scrollbar-thumb { background: #3a3d42; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #4a4e55; }
+
+/* No scrollbar */
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* Game card */
+.game-card {
+  aspect-ratio: 3/4;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: block;
+}
+.game-card:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+
+/* Feature card */
+.feature-card {
+  aspect-ratio: 16/7;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.2s;
+  display: block;
+}
+.feature-card:hover { transform: scale(1.01); }
+
+/* Marquee */
+@keyframes marquee {
+  from { transform: translateX(100%); }
+  to { transform: translateX(-100%); }
+}
+.animate-marquee { animation: marquee 28s linear infinite; }
+
+/* Live blink */
+@keyframes live-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+.animate-live { animation: live-blink 1.2s ease-in-out infinite; }
+
+/* Pulse balance */
+@keyframes balance-flash {
+  0%, 100% { color: var(--color-gold); }
+  50% { color: #fff; }
+}
+.flash-balance { animation: balance-flash 0.6s ease; }
+
+/* Fade in */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in { animation: fade-in 0.25s ease forwards; }
+
+/* Slide in from left */
+@keyframes slide-in-left {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+.animate-slide-in-left { animation: slide-in-left 0.25s ease forwards; }
+
+/* Spin */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.animate-spin { animation: spin 1s linear infinite; }
+
+/* Live dot */
+.live-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+  display: inline-block;
+}
+.live-dot-pulse {
+  box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+  animation: live-pulse 1.5s ease infinite;
+}
+@keyframes live-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+  70% { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+}
+
+/* Gold gradient text */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #ffdf19, #e5a100);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Green gradient */
+.bg-primary-gradient { background: linear-gradient(135deg, #008d5b, #006640); }
+
+/* Modal overlay */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* Btn primary */
+.btn-primary {
+  background: linear-gradient(135deg, #008d5b, #006640);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+}
+.btn-primary:hover { opacity: 0.9; }
+.btn-primary:active { transform: scale(0.98); }
+
+/* Btn gold */
+.btn-gold {
+  background: linear-gradient(135deg, #ffdf19, #e5a100);
+  color: #121315;
+  border: none;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.btn-gold:hover { opacity: 0.9; }
+
+/* Nav item active glow */
+.nav-active {
+  color: #ffdf19 !important;
+  background: rgba(255, 223, 25, 0.08) !important;
+}
+
+/* Section title bar */
+.section-title-bar {
+  width: 4px; height: 18px;
+  background: linear-gradient(to bottom, #008d5b, #ffdf19);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* Production polish: BSL Gaming Bangladesh premium skin, light/dark tokens, a11y states */
+:root {
+  --app-bg: #121315;
+  --app-surface: #1b1c1e;
+  --app-elevated: #242628;
+  --app-hover: #2f302d;
+  --app-border: #32332f;
+  --app-text: #f7f7f3;
+  --app-muted: #b5b3aa;
+  --brand-gold: #fbb70b;
+  --brand-gold-2: #ffdd57;
+  --brand-brown: #2b2822;
+}
+
+html[data-theme="light"] {
+  --app-bg: #f3f4f0;
+  --app-surface: #ffffff;
+  --app-elevated: #f8f8f4;
+  --app-hover: #eeeeea;
+  --app-border: #d8d6ca;
+  --app-text: #171714;
+  --app-muted: #5f625c;
+  color-scheme: light;
+}
+
+html[data-theme="light"] body,
+html[data-theme="light"] .bg-\[\#121315\] { background-color: var(--app-bg) !important; }
+html[data-theme="light"] .bg-\[\#1b1c1e\] { background-color: var(--app-surface) !important; }
+html[data-theme="light"] .bg-\[\#242628\] { background-color: var(--app-elevated) !important; }
+html[data-theme="light"] .border-\[\#2a2c30\] { border-color: var(--app-border) !important; }
+html[data-theme="light"] .text-\[\#f0f0f0\] { color: var(--app-text) !important; }
+html[data-theme="light"] .text-\[\#9ca3af\] { color: var(--app-muted) !important; }
+html[data-theme="light"] .text-\[\#6b7280\] { color: #7a7d75 !important; }
+
+body { background: var(--app-bg); color: var(--app-text); }
+button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--brand-gold);
+  outline-offset: 2px;
+}
+
+.bsl-logo { letter-spacing: -0.04em; text-shadow: 0 2px 0 rgba(0,0,0,.35); }
+.bsl-logo .bsl-main { color: #f4f4ef; }
+.bsl-logo .bsl-sub { color: var(--brand-gold); }
+.bsl-topbar { background: linear-gradient(180deg, #28251f, #201f1b); box-shadow: inset 0 -1px rgba(255,255,255,.04); }
+.bsl-sidebar { background: linear-gradient(180deg, #29271f 0%, #25241d 100%); }
+.bsl-pill { background: linear-gradient(180deg, #4a4a46, #33332f); box-shadow: inset 0 1px rgba(255,255,255,.08), 0 8px 16px rgba(0,0,0,.25); }
+.bsl-pill-active { background: linear-gradient(180deg, #ffd647, #f6a700); color: #211b0d; box-shadow: 0 0 0 1px rgba(255,221,87,.35), 0 8px 18px rgba(251,183,11,.2); }
+.bsl-card-glow { box-shadow: inset 0 1px rgba(255,255,255,.08), 0 12px 30px rgba(0,0,0,.28); }
+.skeleton { position: relative; overflow: hidden; background: #2a2c30; }
+.skeleton::after { content:""; position:absolute; inset:0; transform:translateX(-100%); background: linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent); animation: shimmer 1.5s infinite; }
+@keyframes shimmer { 100% { transform: translateX(100%); } }
+@keyframes float-soft { 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(-8px) } }
+.animate-float-soft { animation: float-soft 4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }

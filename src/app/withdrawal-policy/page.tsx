@@ -1,0 +1,4 @@
+import type { Metadata } from "next";
+import { LegalPage } from "@/components/bsl/legal-page";
+export const metadata: Metadata = { title: "Withdrawal Policy" };
+export default function WithdrawalPolicyPage(){return <LegalPage eyebrow="Wallet" title="Withdrawal Policy" description="Withdrawal process, verification and payment ownership expectations for Bangladesh BDT wallets." sections={[{title:"Verification",body:"Withdrawals may require completed mobile, identity and payment ownership verification before processing."},{title:"Processing",body:"bKash, Nagad, Rocket, Upay and bank transfer withdrawals should show pending, approved, rejected and paid states."},{title:"Security review",body:"Large or unusual withdrawals may enter manual review with transparent status updates and support ticket references."}]}/>}

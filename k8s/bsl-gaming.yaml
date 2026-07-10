@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bsl-gaming-frontend
+  labels:
+    app: bsl-gaming-frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: bsl-gaming-frontend
+  template:
+    metadata:
+      labels:
+        app: bsl-gaming-frontend
+    spec:
+      containers:
+        - name: app
+          image: bsl-gaming:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: production
+            - name: NEXT_PUBLIC_SITE_URL
+              value: https://bslgaming.com.bd
+          readinessProbe:
+            httpGet:
+              path: /api/readiness
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+            initialDelaySeconds: 20
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 768Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bsl-gaming-frontend
+spec:
+  selector:
+    app: bsl-gaming-frontend
+  ports:
+    - port: 80
+      targetPort: 3000
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: bsl-gaming-frontend
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: bsl-gaming-frontend
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70

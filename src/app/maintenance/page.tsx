@@ -1,0 +1,4 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+export const metadata: Metadata = { title: "Maintenance" };
+export default function MaintenancePage(){return <div className="flex min-h-[70vh] items-center justify-center px-4 py-10 text-center"><div className="max-w-lg rounded-2xl border border-[#2a2c30] bg-[#1b1c1e] p-6 shadow-2xl"><div className="text-6xl">🛠️</div><h1 className="mt-4 text-3xl font-black text-[#f0f0f0]">Scheduled Maintenance</h1><p className="mt-3 text-sm leading-6 text-[#9ca3af]">BSL Gaming maintenance page UI for planned provider, wallet or platform upgrades. Please check system status for live service updates.</p><Link href="/status" className="mt-5 inline-flex rounded-lg bg-[#ffdf19] px-5 py-3 text-sm font-black text-[#241a05]">System Status</Link></div></div>}

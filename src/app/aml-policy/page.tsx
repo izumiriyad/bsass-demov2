@@ -1,0 +1,4 @@
+import type { Metadata } from "next";
+import { LegalPage } from "@/components/bsl/legal-page";
+export const metadata: Metadata = { title: "AML Policy" };
+export default function AMLPolicyPage(){return <LegalPage eyebrow="Compliance" title="Anti-Money Laundering Policy" description="Frontend policy center for AML controls required before real-money launch in Bangladesh." sections={[{title:"Customer Due Diligence",body:"Production operation must verify identity, payment ownership, source of funds where required and screen against applicable sanctions and high-risk indicators."},{title:"Transaction Monitoring",body:"Wallet deposits, withdrawals, bonuses and bet settlement should be monitored for unusual velocity, structuring, duplicate accounts and suspicious withdrawal behavior."},{title:"Escalation",body:"High-risk activity should enter manual review with immutable audit logs, account holds and regulatory reporting workflows where applicable."}]}/>}

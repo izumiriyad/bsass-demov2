@@ -1,0 +1,4 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+export const metadata: Metadata = { title: "VIP Host" };
+export default function VIPHostPage(){return <div className="px-3 py-5 sm:px-5"><section className="rounded-2xl border border-[#ffdf19]/30 bg-gradient-to-br from-[#3a2600] to-[#1b1c1e] p-6"><p className="text-xs font-black uppercase tracking-[.2em] text-[#ffdf19]">Priority Care</p><h1 className="mt-2 text-3xl font-black text-white">VIP Host Desk</h1><p className="mt-3 max-w-2xl text-sm leading-6 text-white/75">Dedicated host UI for verified VIP users: faster support, reward planning, responsible-gaming reviews and payment status escalation.</p><Link href="/vip" className="mt-5 inline-flex rounded-lg bg-[#ffdf19] px-5 py-3 text-sm font-black text-[#241a05]">View VIP Club</Link></section></div>}

@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: bsl-gaming-frontend
+    runtime: node
+    plan: starter
+    region: singapore
+    buildCommand: npm ci && npm run build
+    startCommand: npm run start
+    healthCheckPath: /api/readiness
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_SITE_URL
+        value: https://bslgaming.com.bd

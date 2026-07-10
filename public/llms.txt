@@ -1,0 +1,3 @@
+# BSL Gaming Bangladesh
+A Bangladesh-focused sports betting, casino, slots, fishing, crash, lottery and BDT wallet frontend.
+Key sections: /games, /sports, /casino, /promotions, /dashboard, /responsible-gaming, /help.

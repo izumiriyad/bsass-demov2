@@ -1,0 +1,12 @@
+{
+  "name": "BSL Gaming frontend synthetic checks",
+  "intervalSeconds": 60,
+  "regions": ["Singapore", "Mumbai", "Dhaka-edge"],
+  "checks": [
+    { "name": "Home", "method": "GET", "path": "/", "expectedStatus": 200 },
+    { "name": "Sports Live", "method": "GET", "path": "/sports/live", "expectedStatus": 200 },
+    { "name": "Games", "method": "GET", "path": "/games", "expectedStatus": 200 },
+    { "name": "Readiness", "method": "GET", "path": "/api/readiness", "expectedStatus": 200 },
+    { "name": "Manifest", "method": "GET", "path": "/manifest.webmanifest", "expectedStatus": 200 }
+  ]
+}

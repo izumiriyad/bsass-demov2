@@ -1,0 +1,4 @@
+import type { Metadata } from "next";
+import { LegalPage } from "@/components/bsl/legal-page";
+export const metadata: Metadata = { title: "Betting Rules" };
+export default function BettingRulesPage(){return <LegalPage eyebrow="Sportsbook" title="Betting Rules" description="Sportsbook and exchange settlement rules UI for Bangladesh cricket, football and live markets." sections={[{title:'Market acceptance',body:'Bets should show accepted, pending, rejected, cancelled and settled states. Production backend must reject stale odds and confirm final accepted odds.'},{title:'Void and abandoned matches',body:'Abandoned, postponed or interrupted matches require clear void/settlement rules based on official provider feeds.'},{title:'Maximum exposure',body:'Users should see stake limits, possible liability, available balance and responsible-gaming restrictions before placing bets.'}]}/>}

@@ -1,0 +1,19 @@
+groups:
+  - name: bsl-gaming-frontend
+    rules:
+      - alert: BSLFrontendDown
+        expr: probe_success{job="bsl-gaming-frontend"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "BSL Gaming frontend is down"
+          description: "Synthetic probe has failed for more than 2 minutes."
+      - alert: BSLFrontendHighLatency
+        expr: probe_duration_seconds{job="bsl-gaming-frontend"} > 2
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "BSL Gaming frontend latency is high"
+          description: "Synthetic probe duration is above 2 seconds."

@@ -1,0 +1,5 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "Rewards" };
+const missions=["Verify your mobile number","Complete KYC profile","Make first BDT deposit","Place first cricket bet","Set responsible gaming limits"];
+export default function RewardsPage(){return <div className="px-3 py-5 sm:px-5"><section className="rounded-2xl border border-[#2a2c30] bg-[#1b1c1e] p-6"><p className="text-xs font-black uppercase tracking-[.2em] text-[#ffdf19]">Missions</p><h1 className="mt-2 text-3xl font-black text-[#f0f0f0]">Rewards Center</h1><p className="mt-3 max-w-2xl text-sm leading-6 text-[#9ca3af]">Mission-based loyalty UI for onboarding, safe play and product discovery.</p></section><section className="mt-5 space-y-3">{missions.map((m,i)=><article key={m} className="flex items-center justify-between rounded-xl border border-[#2a2c30] bg-[#1b1c1e] p-4"><div><p className="font-black text-[#f0f0f0]">{m}</p><p className="mt-1 text-xs text-[#9ca3af]">Reward: ৳{(i+1)*100} bonus credit</p></div><span className="rounded-full bg-[#242628] px-3 py-1 text-xs font-bold text-[#ffdf19]">{i<2?'Done':'Pending'}</span></article>)}</section></div>}

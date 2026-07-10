@@ -1,0 +1,3 @@
+BSL Gaming Bangladesh frontend
+Built with Next.js, TypeScript and Tailwind CSS.
+Responsible gaming, KYC and compliance UI included.

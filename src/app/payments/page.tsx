@@ -1,0 +1,5 @@
+import type { Metadata } from "next";
+import { PAYMENT_OPTIONS } from "@/lib/catalog";
+
+export const metadata: Metadata = { title: "Payment Methods" };
+export default function PaymentsPage(){return <div className="px-3 py-5 sm:px-5"><section className="rounded-2xl border border-[#2a2c30] bg-[#1b1c1e] p-6"><p className="text-xs font-black uppercase tracking-[.2em] text-[#ffdf19]">BDT Wallet</p><h1 className="mt-2 text-3xl font-black text-[#f0f0f0]">Bangladesh Payment Methods</h1><p className="mt-3 max-w-2xl text-sm leading-6 text-[#9ca3af]">Deposit and withdrawal UI prepared for local payment gateway integration, ledger reconciliation and account verification.</p></section><section className="mt-5 grid gap-4 md:grid-cols-3 xl:grid-cols-5">{PAYMENT_OPTIONS.map((p)=><article key={p.id} className="rounded-2xl border border-[#2a2c30] bg-[#1b1c1e] p-5 text-center"><div className="text-4xl">{p.emoji}</div><h2 className="mt-3 text-lg font-black text-[#f0f0f0]">{p.name}</h2><p className="mt-2 text-sm text-[#9ca3af]">{p.fee} • {p.time}</p></article>)}</section></div>}

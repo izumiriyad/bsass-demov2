@@ -1,0 +1,57 @@
+{
+  "name": "bsl-gaming",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "node .next/standalone/server.js",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "routes:inventory": "node scripts/route-inventory.mjs",
+    "smoke:local": "node scripts/smoke-local.mjs",
+    "start:next": "next start",
+    "validate:production": "npm run routes:inventory && npm run typecheck && npm run lint && npm run build && node scripts/validate-production.mjs",
+    "audit:prod": "npm audit --omit=dev",
+    "validate:deploy": "npm run validate:production && npm run audit:prod",
+    "preflight": "node scripts/preflight.mjs",
+    "validate:all": "NEXT_PUBLIC_SITE_URL=https://bslgaming.com.bd NODE_ENV=production npm run validate:env && npm run preflight && npm run validate:production && npm run validate:security && npm run validate:links && npm run validate:seo && npm run validate:budget && npm run validate:auth && npm run validate:api",
+    "validate:security": "npm run build && node scripts/validate-security-runtime.mjs",
+    "validate:links": "npm run build && node scripts/validate-links.mjs",
+    "validate:budget": "npm run build && node scripts/check-bundle-budget.mjs",
+    "validate:seo": "npm run build && node scripts/validate-seo-assets.mjs",
+    "postbuild": "node scripts/prepare-standalone.mjs",
+    "validate:auth": "npm run build && node scripts/validate-auth-flow.mjs",
+    "validate:api": "npm run build && node scripts/validate-api-contracts.mjs",
+    "validate:env": "node scripts/validate-env.mjs"
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.469.0",
+    "next": "^16.2.10",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "sonner": "^1.7.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.0.0",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^16.2.10",
+    "postcss": "^8.5.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.0"
+  },
+  "overrides": {
+    "next": {
+      "postcss": "8.5.16"
+    }
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.0.0"
+  }
+}

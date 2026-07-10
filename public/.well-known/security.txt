@@ -1,0 +1,4 @@
+Contact: mailto:support@bslgaming.com.bd
+Preferred-Languages: en, bn
+Policy: https://bslgaming.com.bd/security
+Expires: 2027-07-10T00:00:00Z

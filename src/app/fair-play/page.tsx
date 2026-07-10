@@ -1,0 +1,4 @@
+import type { Metadata } from "next";
+import { LegalPage } from "@/components/bsl/legal-page";
+export const metadata: Metadata = { title: "Fair Play" };
+export default function FairPlayPage(){return <LegalPage eyebrow="Integrity" title="Fair Play & Game Integrity" description="Fair play principles for casino, sportsbook, crash, slots, lottery and table game experiences." sections={[{title:"Game providers",body:"Production launch should use licensed providers with certified RNG/live-dealer systems and documented settlement rules."},{title:"Sportsbook settlement",body:"Markets should include clear result sources, void rules, abandoned match rules and dispute timelines."},{title:"User protection",body:"The platform should detect collusion, automation, multiple-account abuse and suspicious arbitrage patterns."}]}/>}

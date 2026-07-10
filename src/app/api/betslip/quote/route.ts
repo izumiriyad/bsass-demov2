@@ -1,0 +1,2 @@
+import { NextRequest, NextResponse } from "next/server";
+export async function POST(req:NextRequest){const body=await req.json().catch(()=>({})); const stake=Number(body.stake??0); const odds=Array.isArray(body.odds)?body.odds.map(Number):[]; const totalOdds=odds.reduce((a:number,b:number)=>a*b,odds.length?1:0); return NextResponse.json({status:"ok",stake,totalOdds,possibleReturn:Math.round(stake*totalOdds*100)/100,currency:"BDT"})}

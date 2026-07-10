@@ -1,0 +1,4 @@
+import type { Metadata } from "next";
+import { LegalPage } from "@/components/bsl/legal-page";
+export const metadata: Metadata = { title: "Bonus Terms" };
+export default function BonusTermsPage(){return <LegalPage eyebrow="Promotions" title="Bonus Terms" description="Clear bonus, cashback, free spin and tournament reward terms for Bangladesh users." sections={[{title:"Eligibility",body:"Bonuses should be available only to verified, eligible users and may require mobile/KYC validation before withdrawal."},{title:"Wagering and expiry",body:"Promotion cards should display wagering requirements, expiry date, maximum conversion and excluded games before claim."},{title:"Abuse prevention",body:"Duplicate accounts, bonus abuse, suspicious payment patterns and coordinated play should be restricted through risk controls and manual review."}]}/>}

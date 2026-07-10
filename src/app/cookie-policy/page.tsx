@@ -1,0 +1,4 @@
+import type { Metadata } from "next";
+import { LegalPage } from "@/components/bsl/legal-page";
+export const metadata: Metadata = { title: "Cookie Policy" };
+export default function CookiePolicyPage(){return <LegalPage eyebrow="Privacy" title="Cookie & Local Storage Policy" description="Explains essential browser storage used by the BSL Gaming frontend." sections={[{title:"Essential Storage",body:"Theme preference, age confirmation, cookie consent, recently viewed games and favorites are stored locally for user experience."},{title:"Session Cookies",body:"Production auth should use secure httpOnly cookies with strict expiry, CSRF protection and server-side validation."},{title:"User Control",body:"Users should be able to clear preferences and request account data support through the privacy/support process."}]}/>}
