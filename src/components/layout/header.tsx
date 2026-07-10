@@ -35,6 +35,7 @@ export function Header() {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
   const [activeLang, setActiveLang] = useState(LANGUAGES[0]);
   const [refreshing, setRefreshing] = useState(false);
   const [balanceFlash, setBalanceFlash] = useState(false);
@@ -108,7 +109,47 @@ export function Header() {
               <button onClick={handleRefresh} aria-label="Refresh balance" className="text-[#aaa79c] hover:text-white"><RefreshCw size={14} className={cn(refreshing && "animate-spin")} /></button>
             </div>
             <button onClick={() => openModal("deposit")} className="rounded-lg bg-gradient-to-b from-[#ffdf19] to-[#f5a400] px-4 py-2 text-sm font-bold text-[#241a05]">Deposit</button>
-            <Link href="/dashboard/notifications" aria-label="Notifications" className="relative flex h-10 w-10 items-center justify-center rounded-lg bg-white/5 text-[#d8d5c7] transition hover:bg-white/10"><Bell size={18} /><span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-[#ef4444]" /></Link>
+            {/* Notification Dropdown */}
+            <div className="relative">
+              <button onClick={() => { setMenuOpen(false); setLangOpen(false); setNotifOpen((o) => !o); }} className="relative flex h-10 w-10 items-center justify-center rounded-lg bg-white/5 text-[#d8d5c7] transition hover:bg-white/10" aria-label="Notifications">
+                <Bell size={18} />
+                <span className="absolute right-2 top-2 flex h-2.5 w-2.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#ef4444] opacity-75"></span>
+                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#ef4444]"></span>
+                </span>
+              </button>
+              {notifOpen && (
+                <>
+                  <div className="fixed inset-0 z-40" onClick={() => setNotifOpen(false)} />
+                  <div className="absolute right-0 top-12 z-50 w-80 overflow-hidden rounded-xl border border-[#35342e] bg-[#1b1c1e] shadow-2xl">
+                    <div className="border-b border-[#2a2c30] px-4 py-3 flex justify-between items-center bg-[#242628]">
+                      <h3 className="font-bold text-[#f0f0f0] text-sm">Notifications</h3>
+                      <button className="text-[10px] font-bold text-[#ffdf19] hover:underline">Mark all read</button>
+                    </div>
+                    <div className="max-h-[300px] overflow-y-auto no-scrollbar">
+                      <div className="border-b border-[#2a2c30] p-4 bg-[#ffdf19]/5 transition hover:bg-[#242628] cursor-pointer">
+                        <p className="text-xs font-bold text-[#f0f0f0]">Welcome to BSL Gaming! 🎉</p>
+                        <p className="text-[11px] text-[#9ca3af] mt-1">Get your ৳500 Free Bonus by downloading our official App today.</p>
+                        <p className="text-[9px] text-[#ffdf19] mt-2 font-bold">Just now</p>
+                      </div>
+                      <div className="border-b border-[#2a2c30] p-4 transition hover:bg-[#242628] cursor-pointer">
+                        <p className="text-xs font-bold text-[#22c55e]">Withdrawal Successful</p>
+                        <p className="text-[11px] text-[#9ca3af] mt-1">Your withdrawal of ৳1,500 via bKash has been approved.</p>
+                        <p className="text-[9px] text-[#6b7280] mt-2 font-bold">2 hours ago</p>
+                      </div>
+                      <div className="p-4 transition hover:bg-[#242628] cursor-pointer">
+                        <p className="text-xs font-bold text-[#f0f0f0]">New VIP Privilege Unlocked 👑</p>
+                        <p className="text-[11px] text-[#9ca3af] mt-1">You are now 4,500 XP away from VIP Gold tier. Keep playing!</p>
+                        <p className="text-[9px] text-[#6b7280] mt-2 font-bold">1 day ago</p>
+                      </div>
+                    </div>
+                    <Link href="/dashboard/notifications" onClick={() => setNotifOpen(false)} className="block w-full border-t border-[#2a2c30] bg-[#121315] py-2 text-center text-xs font-bold text-[#9ca3af] hover:text-white transition">
+                      View All Notifications
+                    </Link>
+                  </div>
+                </>
+              )}
+            </div>
             <div className="relative">
               <button onClick={() => setMenuOpen((o) => !o)} className="flex h-10 w-10 items-center justify-center rounded-full bg-[#008d5b] text-sm font-bold text-white ring-1 ring-white/10">{user.username.charAt(0).toUpperCase()}</button>
               {menuOpen && <><div className="fixed inset-0 z-40" onClick={() => setMenuOpen(false)} /><div className="absolute right-0 top-12 z-50 w-72 overflow-hidden rounded-xl border border-[#35342e] bg-[#1b1c1e] shadow-2xl">
