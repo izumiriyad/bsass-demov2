@@ -14,7 +14,11 @@ export default async function DashboardLayout({ children }: { children: React.Re
   return (
     <div className="px-3 py-4 sm:px-5 sm:py-6">
       <div className="flex flex-col gap-4 lg:flex-row">
-        <DashboardNav user={user} />
+        {/* Sidebar nav (desktop only) */}
+        <div className="hidden lg:block">
+          <DashboardNav user={user} />
+        </div>
+        {/* Main content */}
         <div className="min-w-0 flex-1">{children}</div>
       </div>
     </div>
