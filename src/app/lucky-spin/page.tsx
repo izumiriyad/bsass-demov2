@@ -33,8 +33,8 @@ export default function LuckySpinPage() {
     setSpinning(true);
     
     // Calculate random target
-    const targetSlice = Math.floor(Math.random() * SLIDES_COUNT);
-    const sliceAngle = 360 / SLIDES_COUNT;
+    const targetSlice = Math.floor(Math.random() * SLICES.length);
+    const sliceAngle = 360 / SLICES.length;
     const spins = 5; // 5 full spins
     const targetRotation = (spins * 360) + (360 - (targetSlice * sliceAngle)) - (sliceAngle / 2);
     
