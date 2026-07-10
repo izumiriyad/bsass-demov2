@@ -91,8 +91,22 @@ export function Header() {
             <Link href="/dashboard/notifications" aria-label="Notifications" className="relative flex h-10 w-10 items-center justify-center rounded-lg bg-white/5 text-[#d8d5c7] transition hover:bg-white/10"><Bell size={18} /><span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-[#ef4444]" /></Link>
             <div className="relative">
               <button onClick={() => setMenuOpen((o) => !o)} className="flex h-10 w-10 items-center justify-center rounded-full bg-[#008d5b] text-sm font-bold text-white ring-1 ring-white/10">{user.username.charAt(0).toUpperCase()}</button>
-              {menuOpen && <><div className="fixed inset-0 z-40" onClick={() => setMenuOpen(false)} /><div className="absolute right-0 top-12 z-50 w-64 overflow-hidden rounded-xl border border-[#35342e] bg-[#1b1c1e] shadow-2xl">
-                <div className="border-b border-[#2a2c30] px-4 py-3"><p className="flex items-center gap-1.5 text-sm font-bold text-[#f0f0f0]">{user.username} <span className="flex items-center gap-1 rounded bg-[#22c55e]/20 px-1.5 py-0.5 text-[9px] font-black uppercase text-[#22c55e]">✓ Verified</span></p><p className="truncate text-xs text-[#8c8a80]">{user.email}</p></div>
+              {menuOpen && <><div className="fixed inset-0 z-40" onClick={() => setMenuOpen(false)} /><div className="absolute right-0 top-12 z-50 w-72 overflow-hidden rounded-xl border border-[#35342e] bg-[#1b1c1e] shadow-2xl">
+                <div className="border-b border-[#2a2c30] px-4 py-3">
+                  <p className="flex items-center gap-1.5 text-sm font-bold text-[#f0f0f0]">{user.username} <span className="flex items-center gap-1 rounded bg-[#22c55e]/20 px-1.5 py-0.5 text-[9px] font-black uppercase text-[#22c55e]">✓ Verified</span></p>
+                  <p className="truncate text-xs text-[#8c8a80]">{user.email}</p>
+                  
+                  {/* VIP Progress Bar */}
+                  <div className="mt-3 rounded-lg border border-[#ffdf19]/20 bg-[#ffdf19]/5 p-2.5">
+                    <div className="mb-1.5 flex items-center justify-between text-xs font-bold">
+                      <span className="text-[#f0f0f0]">VIP Silver</span>
+                      <span className="text-[#ffdf19]">4,500 XP to Gold</span>
+                    </div>
+                    <div className="h-1.5 w-full overflow-hidden rounded-full bg-[#2a2c30]">
+                      <div className="h-full w-[45%] rounded-full bg-gradient-to-r from-[#ffdf19] to-[#f4a700] shadow-[0_0_10px_rgba(255,223,25,0.6)]"></div>
+                    </div>
+                  </div>
+                </div>
                 {menuItems.map((item) => item.href ? <Link key={item.label} href={item.href} onClick={() => setMenuOpen(false)} className="block px-4 py-2.5 text-sm text-[#bdb9ab] transition hover:bg-[#242628] hover:text-white"><span className="font-semibold">{item.label}</span><span className="ml-2 text-xs text-[#777369]">{item.sub}</span></Link> : <button key={item.label} onClick={item.action} className="block w-full px-4 py-2.5 text-left text-sm text-[#bdb9ab] transition hover:bg-[#242628] hover:text-white"><span className="font-semibold">{item.label}</span><span className="ml-2 text-xs text-[#777369]">{item.sub}</span></button>)}
                 <button onClick={handleLogout} className="block w-full border-t border-[#2a2c30] px-4 py-2.5 text-left text-sm font-semibold text-[#ef4444] transition hover:bg-[#242628]">Logout <span className="ml-2 text-xs">লগআউট</span></button>
               </div></>}

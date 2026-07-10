@@ -10,6 +10,8 @@ import { cn } from "@/lib/utils";
 
 import { SupportWidget } from "./support-widget";
 import { AppInstallBanner } from "./app-install-banner";
+import { FomoToasts } from "./fomo-toasts";
+import { FloatingEnvelope } from "./floating-envelope";
 
 export function AppShell({ children }: { children: ReactNode }) {
   const { collapsed } = useSidebar();
@@ -29,6 +31,8 @@ export function AppShell({ children }: { children: ReactNode }) {
         <main id="main-content" className="min-h-screen pb-20 pt-[72px] lg:pb-0">{children}<Footer /></main>
         <MobileBottomNav />
         <SupportWidget />
+        <FomoToasts />
+        <FloatingEnvelope />
       </div>
     </div>
   );
