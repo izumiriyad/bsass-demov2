@@ -2,6 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/components/providers/auth-provider";
+import { useModal } from "@/components/providers/modal-provider";
+import toast from "react-hot-toast";
 
 interface OddData {
   price: number;
@@ -16,6 +19,8 @@ interface Runner {
 }
 
 export function ExchangeSimulator() {
+  const { user } = useAuth();
+  const { openModal } = useModal();
   const [runners, setRunners] = useState<Runner[]>([
     {
       id: "r1",
@@ -34,7 +39,6 @@ export function ExchangeSimulator() {
   const [flashing, setFlashing] = useState<Record<string, 'back' | 'lay' | null>>({});
 
   useEffect(() => {
-    // Simulate live ticking odds
     const interval = setInterval(() => {
       setRunners((prev) => {
         const newRunners = [...prev];
@@ -42,7 +46,7 @@ export function ExchangeSimulator() {
         const type = Math.random() > 0.5 ? 'back' : 'lay';
         const colIndex = Math.floor(Math.random() * 3);
         
-        const change = (Math.random() - 0.5) * 0.04; // small tick
+        const change = (Math.random() - 0.5) * 0.04;
         const runner = newRunners[rIndex];
         const oldPrice = runner[type][colIndex].price;
         
@@ -60,8 +64,17 @@ export function ExchangeSimulator() {
     return () => clearInterval(interval);
   }, []);
 
+  const handleOddClick = (type: string, price: number) => {
+    if (!user) {
+      openModal("login");
+      return;
+    }
+    toast.error(`Insufficient balance to place ৳500 ${type} bet at ${price.toFixed(2)}. Please deposit.`);
+    openModal("deposit");
+  };
+
   return (
-    <div className="rounded-xl border border-[#2a2c30] bg-[#121315] overflow-hidden">
+    <div className="rounded-xl border border-[#2a2c30] bg-[#121315] overflow-hidden shadow-2xl">
       <div className="bg-[#1b1c1e] p-3 border-b border-[#2a2c30] flex items-center justify-between">
         <div>
           <span className="flex items-center gap-2 text-xs font-bold text-[#ffdf19]">
@@ -72,7 +85,6 @@ export function ExchangeSimulator() {
         <span className="text-xs text-[#9ca3af]">Matched: ৳ 12,450,200</span>
       </div>
       
-      {/* Header Row */}
       <div className="grid grid-cols-[1fr_auto] border-b border-[#2a2c30] text-xs font-bold text-[#9ca3af]">
         <div className="p-3 flex items-center gap-2">
           <span>Min/Max: 100 / 100,000</span>
@@ -87,14 +99,12 @@ export function ExchangeSimulator() {
         </div>
       </div>
 
-      {/* Runners */}
       {runners.map((runner, rIdx) => (
         <div key={runner.id} className="grid grid-cols-[1fr_auto] border-b border-[#2a2c30] hover:bg-[#1b1c1e] transition">
           <div className="p-3 flex flex-col justify-center">
             <span className="text-sm font-bold text-white">{runner.name}</span>
           </div>
           <div className="flex">
-            {/* Back cols */}
             <div className="flex w-[150px]">
               {runner.back.slice().reverse().map((b, i) => {
                 const colIdx = 2 - i;
@@ -102,8 +112,9 @@ export function ExchangeSimulator() {
                 return (
                   <button 
                     key={i} 
+                    onClick={() => handleOddClick('Back', b.price)}
                     className={cn(
-                      "flex-1 flex flex-col items-center justify-center border-r border-white/5 py-1 px-1 transition-colors",
+                      "flex-1 flex flex-col items-center justify-center border-r border-white/5 py-1 px-1 transition-colors active:scale-95 cursor-pointer",
                       i === 2 ? "bg-[#72bbef] text-black" : "bg-[#72bbef]/80 hover:bg-[#72bbef]",
                       isFlash && "bg-[#ffdf19]"
                     )}
@@ -114,15 +125,15 @@ export function ExchangeSimulator() {
                 )
               })}
             </div>
-            {/* Lay cols */}
             <div className="flex w-[150px]">
               {runner.lay.map((l, i) => {
                 const isFlash = flashing[`${rIdx}-lay-${i}`] === 'lay';
                 return (
                   <button 
                     key={i} 
+                    onClick={() => handleOddClick('Lay', l.price)}
                     className={cn(
-                      "flex-1 flex flex-col items-center justify-center border-r border-white/5 py-1 px-1 transition-colors",
+                      "flex-1 flex flex-col items-center justify-center border-r border-white/5 py-1 px-1 transition-colors active:scale-95 cursor-pointer",
                       i === 0 ? "bg-[#faa9ba] text-black" : "bg-[#faa9ba]/80 hover:bg-[#faa9ba]",
                       isFlash && "bg-[#ffdf19]"
                     )}
