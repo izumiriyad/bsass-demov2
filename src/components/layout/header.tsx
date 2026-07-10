@@ -10,7 +10,10 @@ import { useModal } from "@/components/providers/modal-provider";
 import { useSidebar } from "./sidebar-provider";
 import { formatBDT, cn } from "@/lib/utils";
 
-const LANGUAGES = ["EN", "বাংলা"];
+const LANGUAGES = [
+  { code: "EN", label: "English", flag: "🇬🇧" },
+  { code: "BN", label: "বাংলা", flag: "🇧🇩" }
+];
 
 export function Header() {
   const { user, signOut, refreshUser } = useAuth();
@@ -19,6 +22,7 @@ export function Header() {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
+  const [activeLang, setActiveLang] = useState(LANGUAGES[0]);
   const [refreshing, setRefreshing] = useState(false);
   const [balanceFlash, setBalanceFlash] = useState(false);
 
@@ -96,8 +100,8 @@ export function Header() {
           </>
         )}
         <div className="relative">
-          <button onClick={() => setLangOpen((o) => !o)} className="flex h-10 items-center gap-1 rounded-lg bg-white/5 px-2 text-xs font-bold text-[#d8d5c7] transition hover:bg-white/10" aria-label="Select language"><Globe2 size={16} /><span className="hidden sm:inline">EN</span></button>
-          {langOpen && <><div className="fixed inset-0 z-40" onClick={() => setLangOpen(false)} /><div className="absolute right-0 top-12 z-50 w-28 overflow-hidden rounded-lg border border-[#35342e] bg-[#1b1c1e] py-1 shadow-2xl">{LANGUAGES.map((l) => <button key={l} onClick={() => { setLangOpen(false); toast.info(`${l} selected`); }} className="block w-full px-3 py-2 text-left text-xs font-semibold text-[#d8d5c7] hover:bg-[#242628]">{l}</button>)}</div></>}
+          <button onClick={() => setLangOpen((o) => !o)} className="flex h-10 items-center gap-1.5 rounded-lg border border-white/5 bg-black/20 px-2 text-xs font-bold text-[#f0f0f0] transition hover:bg-white/10" aria-label="Select language"><span className="text-base leading-none">{activeLang.flag}</span><span className="hidden sm:inline">{activeLang.code}</span><ChevronDown size={14} className={cn("text-[#9ca3af] transition-transform", langOpen && "rotate-180")} /></button>
+          {langOpen && <><div className="fixed inset-0 z-40" onClick={() => setLangOpen(false)} /><div className="absolute right-0 top-12 z-50 w-32 overflow-hidden rounded-xl border border-[#35342e] bg-[#1b1c1e] shadow-2xl">{LANGUAGES.map((l) => <button key={l.code} onClick={() => { setActiveLang(l); setLangOpen(false); toast.info(`Language changed to ${l.label}`); }} className={cn("flex w-full items-center gap-2 px-3 py-2.5 text-left text-xs font-semibold transition hover:bg-[#242628]", activeLang.code === l.code ? "bg-[#242628] text-[#ffdf19]" : "text-[#d8d5c7]")}><span className="text-base leading-none">{l.flag}</span><span>{l.label}</span></button>)}</div></>}
         </div>
       </div>
     </header>

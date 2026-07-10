@@ -19,6 +19,7 @@ const EXTRA_ITEMS = [
   { id: "exchange", label: "Exchange", bn: "এক্সচেঞ্জ", emoji: "📊", href: "/exchange" },
   { id: "vip", label: "VIP Club", bn: "ভিআইপি", emoji: "👑", href: "/vip" },
   { id: "rewards", label: "Rewards", bn: "রিওয়ার্ড", emoji: "🎯", href: "/rewards" },
+  { id: "lucky-spin", label: "Lucky Spin", bn: "লাকি স্পিন", emoji: "🎡", href: "/lucky-spin" },
   { id: "checkin", label: "Daily Check-in", bn: "চেক-ইন", emoji: "📅", href: "/daily-check-in" },
   { id: "envelope", label: "Red Envelope", bn: "রেড এনভেলপ", emoji: "🧧", href: "/red-envelope" },
   { id: "cashback", label: "Cashback", bn: "ক্যাশব্যাক", emoji: "💸", href: "/cashback" },
