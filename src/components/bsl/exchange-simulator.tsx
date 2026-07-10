@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/components/providers/auth-provider";
 import { useModal } from "@/components/providers/modal-provider";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 interface OddData {
   price: number;
