@@ -2,6 +2,7 @@ import Link from "next/link";
 import { GameCard, FeatureCard, GameGrid } from "@/components/bsl/game-card";
 import { HeroBanner } from "@/components/bsl/hero-banner";
 import { WinnersTicker, JackpotTicker } from "@/components/bsl/tickers";
+import { LiveWinners } from "@/components/bsl/live-winners";
 import { CategoryTabs } from "@/components/bsl/category-tabs";
 import { GameSection } from "@/components/bsl/game-section";
 import { OddsButton } from "@/components/bsl/odds-button";
@@ -23,6 +24,8 @@ import {
 export default function HomePage() {
   return (
     <div className="space-y-5 px-3 py-4 sm:px-5 sm:py-6">
+      <LiveWinners />
+      
       <WinnersTicker />
 
       <HeroBanner />

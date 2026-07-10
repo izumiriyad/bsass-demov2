@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 @theme inline {
@@ -18,7 +19,7 @@
   --color-text-dim: #6b7280;
   --color-red: #ef4444;
   --color-green: #22c55e;
-  --font-sans: "Lexend", sans-serif;
+  --font-sans: "Inter", sans-serif;
 }
 
 @custom-variant dark (&:is(.dark *));
