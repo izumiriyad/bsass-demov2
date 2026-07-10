@@ -117,6 +117,15 @@ export function Sidebar() {
         })}
       </nav>
       <div className="border-t border-black/20 py-2">{EXTRA_ITEMS.map((item) => <Link key={item.id} href={item.href} className={rowClass(isActive(item.href))}><span className="text-lg">{item.emoji}</span>{!collapsed && <span>{item.label} <span className="ml-1 text-xs text-[#a9a391]">{item.bn}</span></span>}</Link>)}</div>
+      
+      {!collapsed && (
+        <div className="m-4 mt-auto rounded-xl border border-[#ffdf19]/20 bg-gradient-to-br from-[#1b1c1e] to-[#242628] p-4 text-center shadow-lg relative overflow-hidden">
+          <div className="absolute -right-4 -top-4 opacity-10 text-6xl">🏏</div>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-[#ffdf19]">Official Partner</p>
+          <p className="mt-1 text-sm font-black text-white">Shakib Al Hasan</p>
+          <div className="mt-2 text-[10px] text-[#9ca3af]">Play with the champion. Safe, secure, and licensed in BD.</div>
+        </div>
+      )}
     </div>
   );
   return <><aside className={cn("fixed left-0 top-0 z-40 h-full border-r border-black/25 transition-all duration-300", collapsed ? "w-[63px]" : "w-[260px]")}><div className="hidden h-full lg:block">{sidebarContent}</div></aside>{mobileOpen && <div className="fixed inset-0 z-50 lg:hidden"><div className="absolute inset-0 bg-black/65 backdrop-blur-sm" onClick={() => setMobileOpen(false)} /><div className="absolute left-0 top-0 h-full w-[260px] animate-slide-in-left">{sidebarContent}</div></div>}</>;
