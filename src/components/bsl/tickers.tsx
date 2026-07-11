@@ -6,26 +6,37 @@ import { formatBDT } from "@/lib/utils";
 import { Volume2 } from "lucide-react";
 
 export function NewsMarquee() {
+  const items = [
+    "🔴 LIVE: Bangladesh vs India — T20 World Cup Qualifier • BSL Offering Best Odds",
+    "💰 Crazy Time Mega Win: ৳24,50,000 paid out today at BSL Gaming!",
+    "🎁 100% Welcome Bonus up to ৳10,000 for new registrations — Claim now!",
+    "⚡ Instant withdrawals via bKash, Nagad & Rocket — 24/7",
+    "🏏 BPL 2025 Season Betting Live — All Fixtures Available",
+    "🔥 JILI Slot Race Tournament: ৳5,00,000 Prize Pool — Join Now",
+    "📱 Download BSL App — Get ৳500 Free Bonus on First Login",
+    "👑 VIP Members get 15% weekly cashback — No wagering required!",
+  ];
+  const allItems = [...items, ...items]; // duplicate for seamless loop
+
   return (
     <div className="flex items-center overflow-hidden rounded-full border border-[#2a2c30] bg-[#121315]">
       <div className="flex shrink-0 items-center justify-center bg-[#1b1c1e] px-3 py-2 text-[#ffdf19]">
         <Volume2 size={16} />
       </div>
-      <div className="relative flex-1 overflow-hidden py-2 text-xs font-semibold text-[#f0f0f0]">
-        <div className="animate-marquee whitespace-nowrap">
-          <span className="mx-4 text-[#ffdf19] font-black">LATEST NEWS:</span>
-          Bangladesh Premier League betting is now LIVE! Bet on all BPL fixtures with unmatched odds and zero commission. 
-          <span className="mx-4 text-[#ffdf19] font-black">|</span>
-          Welcome Bonus 100% up to 10,000 BDT for new accounts! 
-          <span className="mx-4 text-[#ffdf19] font-black">|</span>
-          Crazy Time Mega Win: ৳2,450,000 paid out today! 
-          <span className="mx-4 text-[#ffdf19] font-black">|</span>
-          Instant withdrawals via bKash, Nagad, and Rocket now enabled 24/7.
+      <div className="relative flex-1 overflow-hidden py-2">
+        <div className="flex w-max animate-ticker whitespace-nowrap gap-8 hover:[animation-play-state:paused]">
+          {allItems.map((item, i) => (
+            <span key={i} className="text-xs font-semibold text-[#f0f0f0]">
+              {item}
+              {i < allItems.length - 1 && <span className="mx-4 text-[#ffdf19] font-black">|</span>}
+            </span>
+          ))}
         </div>
       </div>
     </div>
   );
 }
+
 
 export function WinnersTicker() {
   const [index, setIndex] = useState(0);

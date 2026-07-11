@@ -26,7 +26,7 @@ export function CategoryTabs({ active }: CategoryTabsProps) {
             "flex shrink-0 items-center gap-1.5 rounded-full px-3 py-2 text-xs font-black transition whitespace-nowrap",
             isActive("cricket", "/sports?filter=cricket")
               ? "bg-gradient-to-b from-[#ffdf19] to-[#f4a700] text-[#241a05] shadow-[0_2px_10px_rgba(255,223,25,0.3)]"
-              : "text-[#c0b980] hover:bg-white/8 hover:text-white"
+              : "text-[#c0b980] hover:bg-white/10 hover:text-white"
           )}
         >
           <span className="text-sm">🏏</span>
@@ -45,7 +45,7 @@ export function CategoryTabs({ active }: CategoryTabsProps) {
                 "flex shrink-0 items-center gap-1.5 rounded-full px-3 py-2 text-xs font-black transition whitespace-nowrap",
                 active_cat
                   ? "bg-gradient-to-b from-[#ffdf19] to-[#f4a700] text-[#241a05] shadow-[0_2px_10px_rgba(255,223,25,0.3)]"
-                  : "text-[#c0b980] hover:bg-white/8 hover:text-white"
+                  : "text-[#c0b980] hover:bg-white/10 hover:text-white"
               )}
             >
               <span className="text-sm">{cat.emoji}</span>

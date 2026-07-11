@@ -7,11 +7,14 @@ import { cn } from "@/lib/utils";
 interface Slide { eyebrow: string; title: string; subtitle: string; cta: string; href: string; emoji: string; c1: string; c2: string; }
 
 const SLIDES: Slide[] = [
-  { eyebrow: "BANGLADESH CRICKET SPECIAL", title: "Live Cricket Betting in BDT", subtitle: "BPL, IPL, ICC and Bangladesh fixtures with live/upcoming match states", cta: "Bet Cricket", href: "/sports?filter=cricket", emoji: "🏏", c1: "#043b2a", c2: "#008d5b" },
-  { eyebrow: "WELCOME BONUS", title: "100% Bonus up to ৳10,000", subtitle: "Local wallet friendly registration, deposit and promotion claim UI", cta: "Claim Bonus", href: "/promotions", emoji: "🎁", c1: "#2e2300", c2: "#b57400" },
-  { eyebrow: "LIVE CASINO", title: "Baccarat, Roulette & Blackjack", subtitle: "Premium live dealer lobby with Bangladesh-ready BDT account flow", cta: "Open Casino", href: "/casino", emoji: "♠️", c1: "#3b0011", c2: "#8b0033" },
-  { eyebrow: "CRASH & SLOTS", title: "Aviator, JILI & Pragmatic Play", subtitle: "Fast game cards, filters, favorites and responsive launch screens", cta: "Play Now", href: "/popular", emoji: "🚀", c1: "#1e1b4b", c2: "#5b21b6" },
+  { eyebrow: "BANGLADESH CRICKET SPECIAL", title: "Live Cricket Betting in BDT", subtitle: "BPL, IPL, ICC and Bangladesh fixtures with live odds and instant BDT settlement", cta: "Bet Cricket Now", href: "/sports?filter=cricket", emoji: "🏏", c1: "#043b2a", c2: "#008d5b" },
+  { eyebrow: "WELCOME BONUS", title: "100% Bonus up to ৳10,000", subtitle: "Double your first deposit. Minimum ৳500 via bKash, Nagad or Rocket. Auto-credited.", cta: "Claim Bonus", href: "/promotions/welcome-bonus", emoji: "🎁", c1: "#2e2300", c2: "#b57400" },
+  { eyebrow: "LIVE CASINO", title: "Baccarat, Roulette & Blackjack", subtitle: "Live dealer tables 24/7. Bet with BDT. Powered by Evolution Gaming & JILI.", cta: "Open Casino", href: "/casino", emoji: "♠️", c1: "#3b0011", c2: "#8b0033" },
+  { eyebrow: "CRASH & SLOTS", title: "Aviator, JILI & Pragmatic Play", subtitle: "Bangladesh's favorite crash game. 10,000+ active players daily. Cashout anytime.", cta: "Play Now", href: "/popular", emoji: "🚀", c1: "#1e1b4b", c2: "#5b21b6" },
+  { eyebrow: "INSTANT PAYMENT", title: "bKash · Nagad · Rocket Deposits", subtitle: "Deposit in seconds. Withdraw same-day. Zero fees for all BD mobile banking methods.", cta: "Deposit Now", href: "/deposit", emoji: "💳", c1: "#1a0030", c2: "#7c1fa8" },
+  { eyebrow: "VIP CLUB", title: "Earn Up to 15% Cashback Weekly", subtitle: "Join 50,000+ VIP members. Get personal manager, unlimited withdrawals, and luxury gifts.", cta: "Join VIP Club", href: "/vip", emoji: "👑", c1: "#1c1400", c2: "#8c5c00" },
 ];
+
 
 export function HeroBanner() {
   const [index, setIndex] = useState(0);
