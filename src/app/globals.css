@@ -279,3 +279,98 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .animate-bounce-slow { animation: bounce-slow 3s ease-in-out infinite; }
 
 @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
+
+/* ─── Glass card (glassmorphism) ─── */
+.glass-card {
+  background: rgba(27, 28, 30, 0.7);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* ─── Input autofill override (removes yellow chrome autofill bg) ─── */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px #121315 inset !important;
+  -webkit-text-fill-color: #f0f0f0 !important;
+  caret-color: #f0f0f0;
+  border-color: rgba(255,223,25,0.3) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* ─── Button press scale ─── */
+.btn-press { transition: transform 0.1s; }
+.btn-press:active { transform: scale(0.96); }
+
+/* ─── Odds button flash on click ─── */
+@keyframes odds-flash {
+  0%   { background: rgba(255,223,25,0.4); color: #241a05; }
+  100% { background: transparent; }
+}
+.odds-flash { animation: odds-flash 0.4s ease; }
+
+/* ─── Slide up for modals/sheets ─── */
+@keyframes slide-up {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+.animate-slide-up { animation: slide-up 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+
+/* ─── Notification badge pulse ─── */
+@keyframes badge-pop {
+  0%,100% { transform: scale(1); }
+  50%      { transform: scale(1.25); }
+}
+.animate-badge { animation: badge-pop 2s ease infinite; }
+
+/* ─── Ticker scroll animation ─── */
+@keyframes ticker-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.animate-ticker { animation: ticker-left 35s linear infinite; }
+.animate-ticker:hover { animation-play-state: paused; }
+
+/* ─── Gradient border (VIP / gold) ─── */
+.border-gradient-gold {
+  border: 1.5px solid transparent;
+  background-clip: padding-box;
+  position: relative;
+}
+.border-gradient-gold::before {
+  content: "";
+  position: absolute;
+  inset: -1.5px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #ffdf19, #f4a700, #ffdf19);
+  z-index: -1;
+}
+
+/* ─── Scrollable row for game cards ─── */
+.game-row {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+  -ms-overflow-style: none;
+}
+.game-row::-webkit-scrollbar { display: none; }
+.game-row > * { scroll-snap-align: start; flex-shrink: 0; }
+
+/* ─── Bottom nav safe area ─── */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .safe-bottom { padding-bottom: calc(env(safe-area-inset-bottom) + 4px); }
+}
+
+/* ─── Card hover lift ─── */
+.card-lift { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.card-lift:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+
+/* ─── Deposit highlight pulse (for empty balance) ─── */
+@keyframes deposit-pulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(255,223,25,0.4); }
+  50%      { box-shadow: 0 0 0 8px rgba(255,223,25,0); }
+}
+.deposit-pulse { animation: deposit-pulse 2s ease infinite; }

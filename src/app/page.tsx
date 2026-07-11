@@ -11,6 +11,7 @@ import { GameSection } from "@/components/bsl/game-section";
 import { ExchangeSimulator } from "@/components/bsl/exchange-simulator";
 import { NewMemberGuide, SponsorStrip } from "@/components/bsl/trust-sections";
 import { EngagementSections } from "@/components/bsl/engagement-sections";
+import { LiveStatsBar } from "@/components/bsl/live-stats-bar";
 import {
   SITE,
   POPULAR_GAMES,
@@ -32,8 +33,8 @@ const LIVE_MINI = [
 
 /* ─── Promotions Strip ─── */
 const PROMOS = [
-  { id: "welcome", title: "100% Welcome Bonus", sub: "স্বাগত বোনাস", detail: "Up to ৳10,000 on first deposit", badge: "NEW", emoji: "🎁", color: "#22c55e", href: "/promotions" },
-  { id: "reload", title: "Daily Reload 15%", sub: "ডেইলি রিলোড", detail: "Every deposit earns 15% bonus", badge: "HOT", emoji: "🔁", color: "#f59e0b", href: "/promotions" },
+  { id: "welcome-bonus", title: "100% Welcome Bonus", sub: "স্বাগত বোনাস", detail: "Up to ৳10,000 on first deposit", badge: "NEW", emoji: "🎁", color: "#22c55e", href: "/promotions/welcome-bonus" },
+  { id: "reload-bonus", title: "Daily Reload 15%", sub: "ডেইলি রিলোড", detail: "Every deposit earns 15% bonus", badge: "HOT", emoji: "🔁", color: "#f59e0b", href: "/promotions/reload-bonus" },
   { id: "cashback", title: "Weekly Cashback 10%", sub: "সাপ্তাহিক ক্যাশব্যাক", detail: "Get back 10% of net losses", badge: "", emoji: "💸", color: "#3b82f6", href: "/cashback" },
   { id: "referral", title: "Refer & Earn ৳500", sub: "রেফার করুন", detail: "Per friend who deposits", badge: "", emoji: "🤝", color: "#a855f7", href: "/referral" },
 ];
@@ -44,7 +45,6 @@ function LiveSportsMini() {
 
   return (
     <section className="rounded-2xl border border-[#2a2c30] bg-[#1b1c1e] overflow-hidden">
-      {/* Header */}
       <div className="flex items-center justify-between border-b border-[#2a2c30] bg-[#121315] px-4 py-2.5">
         <div className="flex items-center gap-2">
           <span className="flex h-2 w-2 rounded-full bg-[#ef4444] animate-pulse shadow-[0_0_6px_#ef4444]" />
@@ -57,8 +57,6 @@ function LiveSportsMini() {
           All Sports →
         </Link>
       </div>
-
-      {/* Matches */}
       <div className="no-scrollbar flex gap-0 overflow-x-auto divide-x divide-[#2a2c30]">
         {LIVE_MINI.map((m, i) => (
           <button
@@ -103,17 +101,15 @@ function PromoStrip() {
       </div>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {PROMOS.map((promo) => (
-          <button
+          <Link
             key={promo.id}
-            onClick={() => user ? openModal("deposit") : openModal("login")}
+            href={promo.href}
             className="group relative overflow-hidden rounded-2xl border border-[#2a2c30] bg-gradient-to-br from-[#1b1c1e] to-[#121315] p-4 text-left transition-all hover:-translate-y-1 hover:border-[#ffdf19]/40 hover:shadow-[0_4px_20px_rgba(255,223,25,0.1)] active:scale-95"
           >
-            {/* Glow bg */}
             <div
               className="pointer-events-none absolute inset-0 opacity-0 transition-opacity group-hover:opacity-100"
               style={{ background: `radial-gradient(ellipse at top left, ${promo.color}15, transparent 60%)` }}
             />
-            {/* Badge */}
             {promo.badge && (
               <span
                 className="absolute right-2 top-2 rounded-full px-2 py-0.5 text-[9px] font-black text-white"
@@ -134,7 +130,7 @@ function PromoStrip() {
             >
               Claim Now →
             </div>
-          </button>
+          </Link>
         ))}
       </div>
     </section>
@@ -157,6 +153,7 @@ function PaymentStrip() {
             { name: "Nagad", bg: "linear-gradient(90deg,#ec1c24,#f47b20)", text: "NAGAD" },
             { name: "Rocket", bg: "#8c1566", text: "Rocket" },
             { name: "Upay", bg: "#0070ba", text: "UPAY" },
+            { name: "DBBL", bg: "#006E3C", text: "DBBL" },
             { name: "Bank", bg: "#1d4ed8", text: "Bank TT" },
           ].map((p) => (
             <div
@@ -208,6 +205,133 @@ function ProvidersSection() {
   );
 }
 
+/* ─── VIP Teaser Strip ─── */
+function VipTeaser() {
+  const { user } = useAuth();
+  const { openModal } = useModal();
+
+  return (
+    <section className="relative overflow-hidden rounded-2xl border border-[#ffdf19]/20 bg-gradient-to-br from-[#1c1400] via-[#241a05] to-[#1b1c1e] p-5 sm:p-6">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_right,rgba(255,223,25,0.12),transparent_60%)]" />
+      <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="text-[10px] font-black uppercase tracking-widest text-[#ffdf19] mb-1">Exclusive Club</p>
+          <h2 className="text-xl font-black text-white sm:text-2xl">Join BSL VIP — Earn More</h2>
+          <p className="mt-2 max-w-md text-sm text-[#9ca3af]">
+            Up to <span className="text-[#ffdf19] font-black">15% weekly cashback</span>, personal VIP manager, unlimited withdrawals, and exclusive festival gifts.
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {["5% Cashback", "Daily Bonus", "VIP Manager", "Unlimited Withdrawals"].map((b) => (
+              <span key={b} className="flex items-center gap-1 rounded-full border border-[#ffdf19]/20 bg-[#ffdf19]/5 px-3 py-1 text-[10px] font-bold text-[#ffdf19]">
+                ✓ {b}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="flex flex-col items-center gap-3">
+          <span className="text-6xl">👑</span>
+          <Link
+            href="/vip"
+            className="shrink-0 rounded-2xl bg-gradient-to-b from-[#ffdf19] to-[#f4a700] px-6 py-3 text-sm font-black text-[#241a05] border-b-[3px] border-[#c28400] transition hover:brightness-110 active:scale-[.98]"
+          >
+            View VIP Tiers →
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── App Download CTA ─── */
+function AppDownloadCTA() {
+  return (
+    <section className="rounded-2xl border border-[#2a2c30] bg-gradient-to-br from-[#008d5b]/10 to-[#1b1c1e] p-5 sm:p-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-start gap-4">
+          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#008d5b]/20 border border-[#008d5b]/30 text-3xl">
+            📱
+          </span>
+          <div>
+            <p className="text-[10px] font-black uppercase tracking-widest text-[#22c55e] mb-1">Mobile App</p>
+            <h2 className="text-base font-black text-white">BSL Gaming App — Download Free</h2>
+            <p className="mt-1 text-xs text-[#9ca3af]">Bet, deposit, and withdraw on the go. Get a <span className="text-[#ffdf19] font-bold">৳500 exclusive app bonus</span> on first install.</p>
+          </div>
+        </div>
+        <div className="flex gap-3 sm:flex-col sm:gap-2">
+          <Link href="/app-download" className="flex items-center gap-2 rounded-xl border border-[#2a2c30] bg-[#1b1c1e] px-4 py-2.5 text-xs font-black text-white transition hover:border-[#22c55e]/40">
+            🤖 Android APK
+          </Link>
+          <Link href="/app-download" className="flex items-center gap-2 rounded-xl border border-[#2a2c30] bg-[#1b1c1e] px-4 py-2.5 text-xs font-black text-white transition hover:border-[#22c55e]/40">
+            🍎 iOS App
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── BD Trust Section ─── */
+function TrustSection() {
+  return (
+    <section className="rounded-2xl border border-[#2a2c30] bg-[#121315] p-5">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 mb-4">
+        {[
+          { icon: "🔒", title: "SSL Secured", sub: "256-bit encryption" },
+          { icon: "✅", title: "PAGCOR Licensed", sub: "Reg. No. 16-001" },
+          { icon: "🛡️", title: "18+ Platform", sub: "Responsible gaming" },
+          { icon: "⚡", title: "Instant Payouts", sub: "bKash / Nagad" },
+        ].map((t) => (
+          <div key={t.title} className="flex items-center gap-3">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#1b1c1e] border border-[#2a2c30] text-lg">{t.icon}</span>
+            <div>
+              <p className="text-xs font-black text-white">{t.title}</p>
+              <p className="text-[10px] text-[#6b7280]">{t.sub}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="flex flex-col items-center gap-3 border-t border-[#2a2c30] pt-4 text-center sm:flex-row sm:text-left">
+        <span className="text-3xl flex-shrink-0">🛡️</span>
+        <div>
+          <p className="text-xs font-black uppercase text-[#ffdf19] tracking-widest">Responsible Gaming</p>
+          <p className="mt-1 text-xs text-[#9ca3af] leading-relaxed max-w-2xl">
+            <span className="font-bold text-[#ffdf19]">{SITE.shortName}</span> is committed to responsible gaming. Play responsibly. 18+ only.
+            Use our self-exclusion and deposit limit tools. Need help? Contact{" "}
+            <a href={`mailto:${SITE.supportEmail}`} className="text-[#ffdf19] hover:underline">{SITE.supportEmail}</a>
+          </p>
+        </div>
+        <div className="flex gap-2 sm:ml-auto flex-shrink-0">
+          <Link href="/responsible-gaming" className="rounded-lg bg-[#1b1c1e] border border-[#2a2c30] px-3 py-1.5 text-[10px] font-black text-[#9ca3af] hover:text-white transition">Set Limits</Link>
+          <Link href="/self-assessment" className="rounded-lg bg-[#1b1c1e] border border-[#2a2c30] px-3 py-1.5 text-[10px] font-black text-[#9ca3af] hover:text-white transition">Self-Assess</Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── Social Proof Bar ─── */
+function SocialProofBar() {
+  return (
+    <div className="flex flex-wrap items-center justify-center gap-4 rounded-xl border border-[#2a2c30] bg-[#1b1c1e] px-4 py-3 text-center">
+      {[
+        { emoji: "⭐", val: "4.8/5", label: "App Rating" },
+        { emoji: "👥", val: "2.4M+", label: "Registered Members" },
+        { emoji: "💰", val: "৳580Cr+", label: "Total Paid Out" },
+        { emoji: "🏅", val: "5+ Years", label: "In Operation" },
+        { emoji: "🌏", val: "24/7", label: "Live Support" },
+      ].map((s) => (
+        <div key={s.label} className="flex items-center gap-2">
+          <span className="text-lg">{s.emoji}</span>
+          <div className="text-left">
+            <p className="text-sm font-black text-[#ffdf19] leading-none">{s.val}</p>
+            <p className="text-[9px] text-[#6b7280] font-bold uppercase tracking-wider">{s.label}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 /* ─── Main Homepage ─── */
 export default function HomePage() {
   return (
@@ -223,27 +347,37 @@ export default function HomePage() {
         <HeroBanner />
       </div>
 
-      {/* 3. Live Winners Ticker */}
+      {/* 3. Live Stats Bar */}
+      <div className="px-3 sm:px-5">
+        <LiveStatsBar />
+      </div>
+
+      {/* 4. Live Winners Ticker */}
       <div className="px-3 sm:px-5">
         <WinnersTicker />
       </div>
 
-      {/* 4. Sponsor Partners strip */}
+      {/* 5. Social Proof */}
+      <div className="px-3 sm:px-5">
+        <SocialProofBar />
+      </div>
+
+      {/* 6. Sponsor Partners strip */}
       <div className="px-3 sm:px-5">
         <SponsorStrip />
       </div>
 
-      {/* 5. Category Navigation Tabs */}
+      {/* 7. Category Navigation Tabs */}
       <div className="px-3 sm:px-5">
         <CategoryTabs />
       </div>
 
-      {/* 6. Live Sports Mini Strip */}
+      {/* 8. Live Sports Mini Strip */}
       <div className="px-3 sm:px-5">
         <LiveSportsMini />
       </div>
 
-      {/* 7. Live Exchange */}
+      {/* 9. Live Exchange */}
       <div className="px-3 sm:px-5 space-y-3">
         <div className="flex items-center gap-2">
           <span className="section-title-bar" />
@@ -258,27 +392,27 @@ export default function HomePage() {
         <ExchangeSimulator />
       </div>
 
-      {/* 8. Promotions */}
+      {/* 10. Promotions */}
       <div className="px-3 sm:px-5">
         <PromoStrip />
       </div>
 
-      {/* 9. New Member Guide */}
+      {/* 11. New Member Guide */}
       <div className="px-3 sm:px-5">
         <NewMemberGuide />
       </div>
 
-      {/* 10. Engagement: Red Envelope + Check-in + Winners */}
+      {/* 12. Engagement: Red Envelope + Check-in + Winners */}
       <div className="px-3 sm:px-5">
         <EngagementSections />
       </div>
 
-      {/* 11. Popular Games */}
+      {/* 13. Popular Games */}
       <div className="px-3 sm:px-5">
         <GameSection title="Popular" emoji="⭐" games={POPULAR_GAMES} href="/popular" columns={10} />
       </div>
 
-      {/* 12. Featured Games */}
+      {/* 14. Featured Games */}
       <div className="px-3 sm:px-5">
         <section className="space-y-3">
           <div className="flex items-center justify-between gap-2">
@@ -299,59 +433,49 @@ export default function HomePage() {
         </section>
       </div>
 
-      {/* 13. Slots */}
+      {/* 15. Slots */}
       <div className="px-3 sm:px-5">
         <GameSection title="Slots" emoji="🎰" games={SLOTS_GAMES} href="/slots" columns={10} />
       </div>
 
-      {/* 14. Casino */}
+      {/* 16. VIP Teaser */}
+      <div className="px-3 sm:px-5">
+        <VipTeaser />
+      </div>
+
+      {/* 17. Casino */}
       <div className="px-3 sm:px-5">
         <GameSection title="Casino" emoji="♠️" games={CASINO_GAMES} href="/casino" columns={10} />
       </div>
 
-      {/* 15. Crash */}
+      {/* 18. Crash */}
       <div className="px-3 sm:px-5">
         <GameSection title="Crash" emoji="🚀" games={CRASH_GAMES} href="/crash" columns={10} />
       </div>
 
-      {/* 16. Providers */}
+      {/* 19. Providers */}
       <div className="px-3 sm:px-5">
         <ProvidersSection />
       </div>
 
-      {/* 17. Jackpot Ticker */}
+      {/* 20. Jackpot Ticker */}
       <div className="px-3 sm:px-5">
         <JackpotTicker />
       </div>
 
-      {/* 18. Payment Methods */}
+      {/* 21. App Download CTA */}
+      <div className="px-3 sm:px-5">
+        <AppDownloadCTA />
+      </div>
+
+      {/* 22. Payment Methods */}
       <div className="px-3 sm:px-5">
         <PaymentStrip />
       </div>
 
-      {/* 19. Trust / Responsible Gaming */}
+      {/* 23. BD Trust Section */}
       <div className="px-3 sm:px-5">
-        <section className="rounded-xl border border-[#2a2c30] bg-[#121315] p-5">
-          <div className="flex flex-col items-center gap-3 text-center sm:flex-row sm:text-left">
-            <span className="text-4xl flex-shrink-0">🛡️</span>
-            <div>
-              <p className="text-xs font-black uppercase text-[#ffdf19] tracking-widest">Responsible Gaming</p>
-              <p className="mt-1 text-xs text-[#9ca3af] leading-relaxed max-w-2xl">
-                <span className="font-bold text-[#ffdf19]">{SITE.shortName}</span> is committed to responsible gaming. Play responsibly. 18+ only.
-                Use our self-exclusion and deposit limit tools. Need help? Contact{" "}
-                <a href={`mailto:${SITE.supportEmail}`} className="text-[#ffdf19] hover:underline">{SITE.supportEmail}</a>
-              </p>
-            </div>
-            <div className="flex gap-2 sm:ml-auto flex-shrink-0">
-              <Link href="/responsible-gaming" className="rounded-lg bg-[#1b1c1e] border border-[#2a2c30] px-3 py-1.5 text-[10px] font-black text-[#9ca3af] hover:text-white transition">
-                Set Limits
-              </Link>
-              <Link href="/self-assessment" className="rounded-lg bg-[#1b1c1e] border border-[#2a2c30] px-3 py-1.5 text-[10px] font-black text-[#9ca3af] hover:text-white transition">
-                Self-Assess
-              </Link>
-            </div>
-          </div>
-        </section>
+        <TrustSection />
       </div>
     </div>
   );

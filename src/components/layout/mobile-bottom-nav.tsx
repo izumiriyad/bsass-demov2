@@ -2,16 +2,17 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Trophy, Wallet, Gift, User } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { useAuth } from "@/components/providers/auth-provider";
 import { useModal } from "@/components/providers/modal-provider";
+import { useSidebar } from "@/components/layout/sidebar-provider";
+import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
-  { href: "/", label: "Home", bn: "হোম", icon: Home },
-  { href: "/sports", label: "Sports", bn: "স্পোর্টস", icon: Trophy },
-  { href: "/promotions", label: "Offers", bn: "অফার", icon: Gift, notification: true },
-  { href: "/dashboard", label: "Account", bn: "একাউন্ট", icon: User },
+  { icon: "🏠", label: "Home",    href: "/" },
+  { icon: "⚽", label: "Sports",  href: "/sports",  live: true },
+  { icon: "♠️", label: "Casino",  href: "/casino" },
+  { icon: "🎰", label: "Slots",   href: "/slots" },
+  { icon: "👤", label: "Account", href: "/dashboard", isAccount: true },
 ];
 
 export function MobileBottomNav() {
@@ -19,87 +20,70 @@ export function MobileBottomNav() {
   const { user } = useAuth();
   const { openModal } = useModal();
 
-  const isActive = (href: string) =>
-    href === "/" ? pathname === href : pathname.startsWith(href);
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname.startsWith(href);
+  };
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-30 border-t border-[#2a2c30] bg-[#1b1c1e]/97 px-1 pt-1 pb-safe backdrop-blur-md lg:hidden"
-      style={{ paddingBottom: "env(safe-area-inset-bottom, 4px)" }}
-      aria-label="Mobile bottom navigation"
+      className="fixed bottom-0 left-0 right-0 z-50 lg:hidden"
+      style={{
+        background: "linear-gradient(180deg, #1a1c22 0%, #121315 100%)",
+        borderTop: "1px solid rgba(255,255,255,0.06)",
+        boxShadow: "0 -8px 24px rgba(0,0,0,0.5)",
+        paddingBottom: "env(safe-area-inset-bottom, 0px)",
+      }}
     >
-      <div className="grid grid-cols-5 gap-0.5 items-end">
-        {/* First 2 items */}
-        {NAV_ITEMS.slice(0, 2).map((item) => {
-          const Icon = item.icon;
+      <div className="flex items-center justify-around px-2 py-1.5">
+        {NAV_ITEMS.map((item) => {
           const active = isActive(item.href);
+
+          if (item.isAccount) {
+            return (
+              <button
+                key={item.label}
+                onClick={() => user ? window.location.assign("/dashboard") : openModal("login")}
+                className="relative flex flex-col items-center gap-1 px-3 py-1.5 min-w-[52px] transition-all active:scale-90"
+              >
+                <div className={cn(
+                  "flex h-8 w-8 items-center justify-center rounded-full text-sm font-black transition-all",
+                  active ? "bg-[#ffdf19] text-[#241a05] shadow-[0_0_12px_rgba(255,223,25,0.5)]" : "bg-[#2a2c30] text-[#9ca3af]"
+                )}>
+                  {user ? user.username.charAt(0).toUpperCase() : "👤"}
+                </div>
+                <span className={cn("text-[9px] font-black leading-none", active ? "text-[#ffdf19]" : "text-[#6b7280]")}>
+                  {user ? "Account" : "Login"}
+                </span>
+              </button>
+            );
+          }
+
           return (
             <Link
-              key={item.href}
+              key={item.label}
               href={item.href}
-              className={cn(
-                "flex flex-col items-center gap-0.5 rounded-lg py-2 text-[10px] font-bold transition-all duration-150 active:scale-90",
-                active ? "text-[#ffdf19]" : "text-[#9ca3af] hover:text-[#d8d2bf]"
-              )}
+              className="relative flex flex-col items-center gap-1 px-3 py-1.5 min-w-[52px] transition-all active:scale-90"
             >
-              <div className="relative">
-                <Icon size={20} strokeWidth={active ? 2.5 : 2} />
-                {active && (
-                  <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 h-0.5 w-4 rounded-full bg-[#ffdf19]" />
-                )}
-              </div>
-              <span className="mt-0.5 leading-none">{item.label}</span>
-            </Link>
-          );
-        })}
-
-        {/* Center Deposit CTA */}
-        <div className="relative -mt-5 flex flex-col items-center">
-          <div className="absolute inset-0 z-0 animate-[spin_4s_linear_infinite] rounded-full bg-gradient-to-tr from-[#ffdf19] via-transparent to-[#008d5b] blur-md opacity-70" />
-          <button
-            onClick={() => (user ? openModal("deposit") : openModal("login"))}
-            className="relative z-10 flex flex-col items-center gap-0.5 rounded-2xl bg-gradient-to-b from-[#ffdf19] to-[#f4a700] p-3.5 text-[10px] font-black text-[#241a05] shadow-[0_4px_20px_rgba(255,223,25,0.6)] transition-all hover:scale-105 active:scale-95 border-b-[3px] border-[#c28400]"
-            aria-label="Deposit"
-          >
-            <div className="relative">
-              <Wallet size={24} strokeWidth={2.5} className="animate-pulse" />
-              <span className="absolute -right-1.5 -top-1.5 flex h-2.5 w-2.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />
-                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-white" />
+              {/* Active background pill */}
+              {active && (
+                <div className="absolute inset-x-1 top-0 h-0.5 rounded-full bg-[#ffdf19] shadow-[0_0_8px_rgba(255,223,25,0.6)]" />
+              )}
+              <span className={cn(
+                "text-xl leading-none transition-all",
+                active ? "scale-110 drop-shadow-[0_0_6px_rgba(255,223,25,0.6)]" : "opacity-60"
+              )}>
+                {item.icon}
               </span>
-            </div>
-            <span className="mt-1 leading-none tracking-tight">Deposit</span>
-          </button>
-        </div>
-
-        {/* Last 2 items */}
-        {NAV_ITEMS.slice(2).map((item) => {
-          const Icon = item.icon;
-          const active = isActive(item.href);
-          const handleClick = item.href === "/dashboard" && !user
-            ? (e: React.MouseEvent) => { e.preventDefault(); openModal("login"); }
-            : undefined;
-
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={handleClick}
-              className={cn(
-                "relative flex flex-col items-center gap-0.5 rounded-lg py-2 text-[10px] font-bold transition-all duration-150 active:scale-90",
-                active ? "text-[#ffdf19]" : "text-[#9ca3af] hover:text-[#d8d2bf]"
+              {item.live && !active && (
+                <span className="absolute right-2 top-1.5 h-1.5 w-1.5 rounded-full bg-[#ef4444] animate-pulse" />
               )}
-            >
-              <div className="relative">
-                <Icon size={20} strokeWidth={active ? 2.5 : 2} />
-                {item.notification && !user && (
-                  <span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-[#ef4444] border-2 border-[#1b1c1e]" />
-                )}
-                {active && (
-                  <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 h-0.5 w-4 rounded-full bg-[#ffdf19]" />
-                )}
-              </div>
-              <span className="mt-0.5 leading-none">{item.label}</span>
+              <span className={cn(
+                "text-[9px] font-black leading-none",
+                active ? "text-[#ffdf19]" : "text-[#6b7280]"
+              )}>
+                {item.label}
+              </span>
             </Link>
           );
         })}
