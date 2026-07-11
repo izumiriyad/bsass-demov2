@@ -191,6 +191,24 @@ export function Sidebar() {
             </div>
           )}
 
+          {/* ─ Logged in: Quick Deposit/Withdraw ─ */}
+          {user && (
+            <div className="mx-4 mt-2 grid grid-cols-2 gap-2">
+              <button
+                onClick={() => { openModal("deposit"); setMobileOpen(false); }}
+                className="flex items-center justify-center gap-1.5 rounded-xl bg-[#008d5b] py-2.5 text-xs font-black text-white border-b-[2px] border-[#005c3c] hover:brightness-110 transition active:scale-95"
+              >
+                💳 Deposit
+              </button>
+              <button
+                onClick={() => { router.push("/withdraw"); setMobileOpen(false); }}
+                className="flex items-center justify-center gap-1.5 rounded-xl border border-[#2a2c30] bg-[#1b1c1e] py-2.5 text-xs font-black text-white hover:bg-[#242628] transition active:scale-95"
+              >
+                🏦 Withdraw
+              </button>
+            </div>
+          )}
+
           {/* ─ Sponsor bar (Bournemouth / BD team partner style) ─ */}
           <div className="mx-4 mt-3 flex items-center gap-3 rounded-xl border border-[#2a2c30] bg-[#1b1c1e] p-3">
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#c8102e] to-[#8b0d22] text-xl font-black text-white shadow-md flex-shrink-0">🏏</div>
@@ -362,18 +380,26 @@ export function Sidebar() {
               </button>
             </>
           ) : (
-            <Link
-              href="/dashboard"
-              className="flex items-center gap-2 rounded-xl border border-[#2a2c30] bg-[#1b1c1e] p-2.5 hover:border-[#ffdf19]/30 transition"
-            >
-              <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#008d5b] text-xs font-black text-white">
-                {user.username.charAt(0).toUpperCase()}
-              </div>
-              <div className="min-w-0">
-                <p className="truncate text-xs font-black text-white">{user.username}</p>
-                <p className="text-[10px] text-[#ffdf19] font-bold">৳ {user.balance.toLocaleString()}</p>
-              </div>
-            </Link>
+            <div className="space-y-2">
+              <Link
+                href="/dashboard"
+                className="flex items-center gap-2 rounded-xl border border-[#2a2c30] bg-[#1b1c1e] p-2.5 hover:border-[#ffdf19]/30 transition"
+              >
+                <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#008d5b] text-xs font-black text-white">
+                  {user.username.charAt(0).toUpperCase()}
+                </div>
+                <div className="min-w-0">
+                  <p className="truncate text-xs font-black text-white">{user.username}</p>
+                  <p className="text-[10px] text-[#ffdf19] font-bold">৳ {user.balance.toLocaleString()}</p>
+                </div>
+              </Link>
+              <button
+                onClick={() => openModal("deposit")}
+                className="w-full rounded-xl bg-[#008d5b] py-2 text-xs font-black text-white border-b-[2px] border-[#005c3c] hover:brightness-110 transition"
+              >
+                💳 Deposit Now
+              </button>
+            </div>
           )}
         </div>
       )}
