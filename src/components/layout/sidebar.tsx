@@ -1,299 +1,389 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Moon, Sun, X, ChevronDown } from "lucide-react";
-import { GAME_CATEGORIES } from "@/lib/catalog";
-import { useTheme } from "@/components/providers/theme-provider";
+import { usePathname, useRouter } from "next/navigation";
+import { X, Home, LogIn } from "lucide-react";
 import { useSidebar } from "./sidebar-provider";
+import { useAuth } from "@/components/providers/auth-provider";
+import { useModal } from "@/components/providers/modal-provider";
 import { cn } from "@/lib/utils";
 
-const QUICK = [
-  { label: "Cricket", emoji: "🏏", href: "/sports?filter=cricket" },
-  { label: "Casino", emoji: "♠️", href: "/casino" },
+/* ─── bj88-style icon tile data ─── */
+const GAME_TILES = [
+  { id: "popular",     icon: "✦",  label: "POPULAR",    href: "/popular" },
+  { id: "sports",      icon: "⚽", label: "SPORTS",     href: "/sports", live: true },
+  { id: "cockfight",   icon: "🐓", label: "COCKFIGHT",  href: "/cockfighting" },
+  { id: "slots",       icon: "🎰", label: "SLOTS",      href: "/slots" },
+  { id: "casino",      icon: "♠️", label: "CASINO",     href: "/casino" },
+  { id: "table",       icon: "🎲", label: "TABLE",      href: "/table" },
+  { id: "fishing",     icon: "🎣", label: "FISHING",    href: "/fishing" },
+  { id: "lottery",     icon: "🎟️", label: "LOTTERY",   href: "/lottery" },
+  { id: "arcade",      icon: "🕹️", label: "ARCADE",    href: "/arcade" },
+  { id: "crash",       icon: "🚀", label: "CRASH",      href: "/crash" },
 ];
 
-const EXTRA_ITEMS = [
-  { id: "promotions", label: "Promotions", bn: "প্রোমোশন", emoji: "🎁", href: "/promotions" },
-  { id: "exchange", label: "Exchange", bn: "এক্সচেঞ্জ", emoji: "📊", href: "/exchange" },
-  { id: "vip", label: "VIP Club", bn: "ভিআইপি", emoji: "👑", href: "/vip" },
-  { id: "rewards", label: "Rewards", bn: "রিওয়ার্ড", emoji: "🎯", href: "/rewards" },
-  { id: "lucky-spin", label: "Lucky Spin", bn: "লাকি স্পিন", emoji: "🎡", href: "/lucky-spin" },
-  { id: "checkin", label: "Daily Check-in", bn: "চেক-ইন", emoji: "📅", href: "/daily-check-in" },
-  { id: "envelope", label: "Red Envelope", bn: "রেড এনভেলপ", emoji: "🧧", href: "/red-envelope" },
-  { id: "cashback", label: "Cashback", bn: "ক্যাশব্যাক", emoji: "💸", href: "/cashback" },
-  { id: "tournaments", label: "Tournaments", bn: "টুর্নামেন্ট", emoji: "🏅", href: "/tournaments" },
-  { id: "verify-agent", label: "Verify Agent", bn: "এজেন্ট যাচাই", emoji: "🛡️", href: "/verify-agent" },
-  { id: "affiliate", label: "Affiliate", bn: "অ্যাফিলিয়েট", emoji: "🤝", href: "/affiliate" },
-  { id: "livechat", label: "Live Chat", bn: "লাইভ চ্যাট", emoji: "💬", href: "/live-chat" },
+const EXTRA_TILES = [
+  { id: "promotions",  icon: "🎁", label: "Promotions",       href: "/promotions" },
+  { id: "vip",         icon: "👑", label: "VIP Club",         href: "/vip" },
+  { id: "leaderboard", icon: "🏆", label: "Leaderboard",      href: "/leaderboard" },
+  { id: "download",    icon: "📲", label: "Download",         href: "/app-download" },
+  { id: "affiliate",   icon: "🤝", label: "Affiliate",        href: "/affiliate" },
+  { id: "ambassador",  icon: "🌟", label: "Ambassador",       href: "/ambassador" },
+  { id: "referral",    icon: "👥", label: "Referral\nProgram",href: "/referral" },
+  { id: "help",        icon: "ℹ️", label: "Help Page",        href: "/help" },
 ];
 
-const SUBMENU_MAP: Record<string, { label: string; bn: string; href: string }[]> = {
-  sports: [
-    { label: "Live Betting", bn: "লাইভ বাজি", href: "/sports?filter=live" },
-    { label: "Cricket", bn: "ক্রিকেট", href: "/sports?filter=cricket" },
-    { label: "Football", bn: "ফুটবল", href: "/sports?filter=football" },
-    { label: "Tennis", bn: "টেনিস", href: "/sports?filter=tennis" },
-    { label: "Kabaddi", bn: "কাবাডি", href: "/sports?filter=kabaddi" },
-    { label: "Esports", bn: "ই-স্পোর্টস", href: "/sports?filter=esports" },
-  ],
-  cockfighting: [
-    { label: "Live Stream", bn: "লাইভ স্ট্রিম", href: "/cockfighting?filter=live" },
-    { label: "Derby", bn: "ডার্বি", href: "/cockfighting?filter=derby" },
-    { label: "Results", bn: "রেজাল্ট", href: "/cockfighting?filter=results" },
-  ],
-  slots: [
-    { label: "JILI", bn: "জিলি", href: "/slots?provider=jili" },
-    { label: "Pragmatic Play", bn: "প্র্যাগম্যাটিক", href: "/slots?provider=pragmatic" },
-    { label: "PG Soft", bn: "পিজি সফট", href: "/slots?provider=pgsoft" },
-    { label: "Jackpot", bn: "জ্যাকপট", href: "/slots?filter=jackpot" },
-  ],
-  casino: [
-    { label: "Live Casino", bn: "লাইভ ক্যাসিনো", href: "/casino?filter=live" },
-    { label: "Baccarat", bn: "ব্যাকারাট", href: "/casino?filter=baccarat" },
-    { label: "Roulette", bn: "রুলেট", href: "/casino?filter=roulette" },
-    { label: "Blackjack", bn: "ব্ল্যাকজ্যাক", href: "/casino?filter=blackjack" },
-  ],
-  table: [
-    { label: "Card Games", bn: "কার্ড গেম", href: "/table?filter=cards" },
-    { label: "Board Games", bn: "বোর্ড গেম", href: "/table?filter=board" },
-  ],
-  fishing: [
-    { label: "JILI Fishing", bn: "জিলি ফিশিং", href: "/fishing?provider=jili" },
-    { label: "Fish Hunter", bn: "ফিশ হান্টার", href: "/fishing?filter=hunter" },
-  ],
-  lottery: [
-    { label: "Keno", bn: "কেনো", href: "/lottery?filter=keno" },
-    { label: "Number Draw", bn: "নম্বর ড্র", href: "/lottery?filter=draw" },
-  ],
-  arcade: [
-    { label: "Instant Win", bn: "ইনস্ট্যান্ট উইন", href: "/arcade?filter=instant" },
-    { label: "Casual", bn: "ক্যাজুয়াল", href: "/arcade?filter=casual" },
-  ],
-  crash: [
-    { label: "Aviator", bn: "এভিয়েটর", href: "/crash?filter=aviator" },
-    { label: "Multiplier", bn: "মাল্টিপ্লায়ার", href: "/crash?filter=multiplier" },
-  ],
-};
+/* ─── Desktop nav items (icon + label rows) ─── */
+const DESKTOP_NAV = [
+  { icon: "🏠", label: "Home",         href: "/" },
+  { icon: "⭐", label: "Popular",      href: "/popular" },
+  { icon: "⚽", label: "Sports",       href: "/sports",      live: true },
+  { icon: "🐓", label: "Cockfighting", href: "/cockfighting" },
+  { icon: "🎰", label: "Slots",        href: "/slots" },
+  { icon: "♠️", label: "Casino",       href: "/casino" },
+  { icon: "🎲", label: "Table",        href: "/table" },
+  { icon: "🎣", label: "Fishing",      href: "/fishing" },
+  { icon: "🎟️", label: "Lottery",     href: "/lottery" },
+  { icon: "🕹️", label: "Arcade",      href: "/arcade" },
+  { icon: "🚀", label: "Crash",        href: "/crash" },
+  { icon: "🎁", label: "Promotions",   href: "/promotions" },
+  { icon: "👑", label: "VIP Club",     href: "/vip" },
+  { icon: "🏆", label: "Leaderboard",  href: "/leaderboard" },
+  { icon: "📲", label: "Download",     href: "/app-download" },
+  { icon: "🤝", label: "Affiliate",    href: "/affiliate" },
+  { icon: "🌟", label: "Ambassador",   href: "/ambassador" },
+  { icon: "💸", label: "Cashback",     href: "/cashback" },
+  { icon: "🧧", label: "Red Envelope", href: "/red-envelope" },
+  { icon: "💬", label: "Live Chat",    href: "/live-chat" },
+];
 
-const bnLabel: Record<string, string> = {
-  popular: "জনপ্রিয়", sports: "স্পোর্টস", cockfighting: "মোরগ লড়াই", slots: "স্লট", casino: "ক্যাসিনো", table: "টেবিল", fishing: "ফিশিং", lottery: "লটারি", arcade: "আর্কেড", crash: "ক্র্যাশ",
-};
+/* ─── Shared icon button for tiles ─── */
+function Tile({ icon, label, href, onClick, active, live }: {
+  icon: string; label: string; href?: string; onClick?: () => void;
+  active?: boolean; live?: boolean;
+}) {
+  const cls = cn(
+    "relative flex flex-col items-center justify-center gap-1.5 rounded-xl border p-2.5 min-h-[72px] transition-all active:scale-95 cursor-pointer select-none",
+    active
+      ? "border-[#ffdf19]/60 bg-[#ffdf19]/10"
+      : "border-[#2e2f33] bg-[#1e2026] hover:border-[#ffdf19]/30 hover:bg-[#262830]"
+  );
+
+  const content = (
+    <>
+      {live && (
+        <span className="absolute top-1.5 right-1.5 flex h-2 w-2">
+          <span className="absolute h-full w-full animate-ping rounded-full bg-[#ef4444] opacity-75" />
+          <span className="relative h-2 w-2 rounded-full bg-[#ef4444]" />
+        </span>
+      )}
+      <span
+        className={cn("text-xl leading-none transition-transform group-hover:scale-110",
+          active ? "text-[#ffdf19]" : "text-[#c8a800]"
+        )}
+        style={{ filter: active ? "drop-shadow(0 0 6px #ffdf1988)" : "none" }}
+      >
+        {icon}
+      </span>
+      <span className={cn(
+        "text-center text-[10px] font-black leading-tight tracking-wide whitespace-pre-line",
+        active ? "text-[#ffdf19]" : "text-[#c0b980]"
+      )}>
+        {label}
+      </span>
+    </>
+  );
+
+  if (href) return <Link href={href} className={cn("group", cls)}>{content}</Link>;
+  return <button type="button" onClick={onClick} className={cn("group", cls)}>{content}</button>;
+}
 
 export function Sidebar() {
   const pathname = usePathname();
-  const { collapsed, toggle, mobileOpen, setMobileOpen } = useSidebar();
-  const { theme, toggleTheme } = useTheme();
-  const [expanded, setExpanded] = useState<string | null>(null);
+  const router = useRouter();
+  const { collapsed, mobileOpen, setMobileOpen } = useSidebar();
+  const { user } = useAuth();
+  const { openModal } = useModal();
 
-  // Auto-close mobile sidebar whenever route changes
-  useEffect(() => {
-    setMobileOpen(false);
-  }, [pathname, setMobileOpen]);
+  // Auto-close on route change
+  useEffect(() => { setMobileOpen(false); }, [pathname, setMobileOpen]);
 
-  // Lock body scroll when mobile sidebar is open
+  // Lock body scroll on mobile
   useEffect(() => {
-    if (mobileOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
 
   const isActive = (href: string) => {
     const base = href.split("?")[0];
-    return pathname === base || pathname.startsWith(base + "/");
+    return pathname === base || (base !== "/" && pathname.startsWith(base));
   };
 
-  const rowClass = (active: boolean) =>
-    cn(
-      "group flex items-center gap-3 px-4 py-[11px] text-[14px] font-extrabold transition-all duration-150 cursor-pointer",
-      collapsed && "justify-center px-0",
-      active
-        ? "bg-[#ffdf19]/10 text-[#ffdf19] border-l-2 border-[#ffdf19]"
-        : "text-[#f2f0e8] hover:bg-white/[0.06] border-l-2 border-transparent"
-    );
+  /* ═══════════════════════════ MOBILE DRAWER ═══════════════════════════ */
+  const MobileDrawer = (
+    <div className="fixed inset-0 z-[60] lg:hidden">
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+        onClick={() => setMobileOpen(false)}
+      />
 
-  const sidebarContent = (
-    <div className="bsl-sidebar flex h-full flex-col text-[#f5f2e8] overflow-hidden">
-      {/* Logo & Quick Access */}
-      <div className="border-b border-black/20 px-3 py-3 flex-shrink-0">
-        {/* Mobile close button */}
-        <div className="flex items-center justify-between mb-2 lg:hidden">
-          <Link href="/" className="flex items-center gap-2 rounded-lg bg-black/10 p-1.5 transition hover:bg-black/20">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#008d5b] text-base font-black text-white">BSL</div>
-            <div className="min-w-0">
-              <p className="truncate text-[14px] font-black text-[#ffdf19]">BSL Gaming</p>
-              <p className="truncate text-[10px] font-bold text-[#cfcab9]">Bangladesh Betting Platform</p>
+      {/* Drawer panel */}
+      <div className="absolute left-0 top-0 h-full w-[320px] max-w-[88vw] flex flex-col overflow-hidden animate-slide-in-left"
+        style={{ background: "linear-gradient(180deg, #16181d 0%, #1a1c22 100%)" }}>
+
+        {/* ─ Header row ─ */}
+        <div className="flex items-center justify-between px-4 pt-5 pb-4 flex-shrink-0 border-b border-[#2a2c30]">
+          <Link href="/" onClick={() => setMobileOpen(false)} className="flex items-center gap-3">
+            {/* bj88-style logo badge */}
+            <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#008d5b] to-[#004d32] shadow-lg">
+              <span className="text-base font-black text-white">BSL</span>
+            </div>
+            <div>
+              <p className="text-base font-black text-white leading-tight">Hi Welcome</p>
+              <p className="text-[10px] text-[#9ca3af]">Bangladesh #1 Platform</p>
             </div>
           </Link>
           <button
             onClick={() => setMobileOpen(false)}
-            className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/5 text-[#d8d5c7] hover:bg-white/10 transition"
-            aria-label="Close sidebar"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 text-[#9ca3af] hover:bg-white/10 hover:text-white transition"
           >
             <X size={18} />
           </button>
         </div>
 
-        {/* Desktop logo */}
-        {!collapsed && (
-          <Link href="/" className="mb-3 hidden lg:flex items-center gap-2 rounded-lg bg-black/10 p-2 transition hover:bg-black/20">
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[#008d5b] text-xl font-black text-white">BSL</div>
-            <div className="min-w-0">
-              <p className="truncate text-[16px] font-black text-[#ffdf19]">BSL Gaming</p>
-              <p className="truncate text-[11px] font-bold text-[#cfcab9]">Bangladesh Betting Platform</p>
+        {/* Scrollable content */}
+        <div className="no-scrollbar flex-1 overflow-y-auto">
+          {/* ─ Login / Sign Up row (yellow, bj88 exact) ─ */}
+          {!user && (
+            <div className="mx-4 mt-4 flex gap-2">
+              <button
+                onClick={() => { openModal("login"); setMobileOpen(false); }}
+                className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-b from-[#ffdf19] to-[#f4a700] py-3.5 text-sm font-black text-[#241a05] shadow-[0_4px_15px_rgba(255,223,25,0.3)] border-b-[3px] border-[#c28400] transition hover:brightness-110 active:scale-[.98]"
+              >
+                <LogIn size={16} />
+                LOGIN
+              </button>
+              <button
+                onClick={() => { openModal("register"); setMobileOpen(false); }}
+                className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#242628] border border-[#3a3c42] py-3.5 text-sm font-black text-white transition hover:bg-[#2d2f35] active:scale-[.98]"
+              >
+                SIGN UP
+              </button>
             </div>
-          </Link>
-        )}
+          )}
 
-        <div className={cn("grid gap-2", collapsed ? "grid-cols-1" : "grid-cols-2")}>
-          {QUICK.map((q) => (
-            <Link
-              key={q.href}
-              href={q.href}
-              className="bsl-pill flex items-center justify-center gap-2 rounded-md px-2 py-2 text-xs font-black text-white transition hover:brightness-110"
+          {/* ─ Logged in: Balance row ─ */}
+          {user && (
+            <div
+              className="mx-4 mt-4 flex items-center gap-3 rounded-xl bg-gradient-to-r from-[#d4a017] to-[#f4a700] p-3 cursor-pointer"
+              onClick={() => { router.push("/dashboard"); setMobileOpen(false); }}
             >
-              <span>{q.emoji}</span>
-              {!collapsed && q.label}
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-black/20 text-base font-black text-[#241a05]">
+                {user.username.charAt(0).toUpperCase()}
+              </div>
+              <div>
+                <p className="text-xs font-black text-[#241a05]">{user.username}</p>
+                <p className="text-sm font-black text-[#241a05]">৳ {user.balance.toLocaleString()}</p>
+              </div>
+              <span className="ml-auto text-[10px] font-black text-[#241a05] opacity-60">Main Wallet</span>
+            </div>
+          )}
+
+          {/* ─ Sponsor bar (Bournemouth / BD team partner style) ─ */}
+          <div className="mx-4 mt-3 flex items-center gap-3 rounded-xl border border-[#2a2c30] bg-[#1b1c1e] p-3">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#c8102e] to-[#8b0d22] text-xl font-black text-white shadow-md flex-shrink-0">🏏</div>
+            <div>
+              <p className="text-xs font-black text-[#ffdf19] leading-tight">OFFICIAL PARTNER</p>
+              <p className="text-xs text-white font-bold">Bangladesh Cricket Board</p>
+              <p className="text-[10px] text-[#9ca3af]">Official Betting Partner</p>
+            </div>
+          </div>
+
+          {/* ─ Game Category Tiles (bj88 3-col grid) ─ */}
+          <div className="px-4 mt-3">
+            <div className="grid grid-cols-3 gap-2">
+              {GAME_TILES.map((tile) => (
+                <Tile
+                  key={tile.id}
+                  icon={tile.icon}
+                  label={tile.label}
+                  href={tile.href}
+                  active={isActive(tile.href)}
+                  live={tile.live}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* ─ Divider ─ */}
+          <div className="mx-4 my-3 h-px bg-[#2a2c30]" />
+
+          {/* ─ Extra tiles (promotions, VIP, etc.) ─ */}
+          <div className="px-4 mb-3">
+            <div className="grid grid-cols-3 gap-2">
+              {EXTRA_TILES.map((tile) => (
+                <Tile
+                  key={tile.id}
+                  icon={tile.icon}
+                  label={tile.label}
+                  href={tile.href}
+                  active={isActive(tile.href)}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ─ Bottom bar: Home | Login (bj88 exact) ─ */}
+        <div className="flex-shrink-0 border-t border-[#2a2c30] bg-[#16181d]">
+          <div className="flex">
+            <Link
+              href="/"
+              onClick={() => setMobileOpen(false)}
+              className={cn(
+                "flex flex-1 items-center justify-center gap-2 py-4 text-sm font-black transition",
+                pathname === "/" ? "text-[#ffdf19]" : "text-[#9ca3af] hover:text-white"
+              )}
+            >
+              <Home size={18} />
+              Home
             </Link>
-          ))}
+            <div className="w-px bg-[#2a2c30]" />
+            {user ? (
+              <Link
+                href="/dashboard"
+                onClick={() => setMobileOpen(false)}
+                className="flex flex-1 items-center justify-center gap-2 py-4 text-sm font-black text-[#9ca3af] hover:text-white transition"
+              >
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#008d5b] text-[10px] font-black text-white">
+                  {user.username.charAt(0).toUpperCase()}
+                </span>
+                Account
+              </Link>
+            ) : (
+              <button
+                onClick={() => { openModal("login"); setMobileOpen(false); }}
+                className="flex flex-1 items-center justify-center gap-2 py-4 text-sm font-black text-[#9ca3af] hover:text-white transition"
+              >
+                <LogIn size={18} />
+                Login
+              </button>
+            )}
+          </div>
         </div>
       </div>
+    </div>
+  );
 
-      {/* Theme toggle */}
-      <div className={cn("flex items-center border-b border-black/20 px-4 py-3 flex-shrink-0", collapsed && "justify-center px-0")}>
-        {!collapsed && <span className="mr-auto text-sm font-medium text-[#d7d2c2]">{theme === "dark" ? "Dark Mode" : "Light Mode"}</span>}
-        <button
-          onClick={toggleTheme}
-          className="flex h-7 w-12 items-center rounded-full bg-black/30 p-1 transition hover:bg-black/45"
-          aria-label="Toggle theme"
-        >
-          <span className={cn("flex h-5 w-5 items-center justify-center rounded-full bg-white text-[#2b281f] transition-transform duration-300", theme === "light" && "translate-x-5")}>
-            {theme === "dark" ? <Moon size={13} /> : <Sun size={13} />}
-          </span>
-        </button>
+  /* ═══════════════════════════ DESKTOP SIDEBAR ═══════════════════════════ */
+  const DesktopSidebar = (
+    <aside
+      className={cn(
+        "fixed left-0 top-0 z-40 h-full border-r border-black/30 transition-all duration-300 hidden lg:flex flex-col",
+        collapsed ? "w-[64px]" : "w-[220px]"
+      )}
+      style={{ background: "linear-gradient(180deg, #16181d 0%, #1a1c22 100%)" }}
+    >
+      {/* Logo */}
+      <div className="flex items-center gap-3 border-b border-black/30 px-3 py-4 flex-shrink-0">
+        <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#008d5b] to-[#004d32] text-xs font-black text-white shadow-lg">
+          BSL
+        </div>
+        {!collapsed && (
+          <div className="min-w-0">
+            <p className="truncate text-sm font-black text-white">BSL Gaming</p>
+            <p className="truncate text-[9px] text-[#9ca3af]">BD #1 Platform</p>
+          </div>
+        )}
       </div>
 
-      {/* Navigation */}
+      {/* Nav */}
       <nav className="no-scrollbar flex-1 overflow-y-auto py-2">
-        <Link href="/" className={rowClass(pathname === "/")}>
-          <span className="text-lg">🏠</span>
-          {!collapsed && <span>Home <span className="ml-1 text-xs text-[#a9a391]">হোম</span></span>}
-        </Link>
-
-        {GAME_CATEGORIES.map((cat) => {
-          const href = `/${cat.id}`;
-          const active = isActive(href);
-          const hasSubmenu = !!SUBMENU_MAP[cat.id];
-          const isExpanded = expanded === cat.id;
-          const showLiveDot = cat.id === "sports";
-
+        {DESKTOP_NAV.map((item) => {
+          const active = isActive(item.href);
           return (
-            <div key={cat.id}>
-              <div
-                className={rowClass(active)}
-                onClick={() => {
-                  if (hasSubmenu && !collapsed) {
-                    setExpanded(isExpanded ? null : cat.id);
-                  }
-                }}
-              >
-                <Link
-                  href={href}
-                  className="flex min-w-0 flex-1 items-center gap-3"
-                  onClick={(e) => {
-                    if (hasSubmenu && !collapsed) e.preventDefault();
-                  }}
-                >
-                  <span className="text-lg drop-shadow flex-shrink-0" style={{ color: cat.color }}>{cat.emoji}</span>
-                  {!collapsed && (
-                    <span className="truncate">
-                      {cat.label} <span className="ml-1 text-xs text-[#a9a391]">{bnLabel[cat.id]}</span>
-                    </span>
-                  )}
-                  {!collapsed && showLiveDot && <span className="live-dot live-dot-pulse ml-auto flex-shrink-0" />}
-                </Link>
-                {!collapsed && hasSubmenu && (
-                  <ChevronDown
-                    size={14}
-                    className={cn("text-[#d8d2bf] transition-transform duration-200 flex-shrink-0", isExpanded && "rotate-180")}
-                  />
+            <Link
+              key={item.href + item.label}
+              href={item.href}
+              className={cn(
+                "group relative flex items-center gap-3 px-3 py-2.5 text-[13px] font-bold transition-all duration-150",
+                collapsed && "justify-center px-0",
+                active
+                  ? "bg-[#ffdf19]/10 text-[#ffdf19] border-l-2 border-[#ffdf19]"
+                  : "text-[#9ca3af] hover:bg-white/5 hover:text-white border-l-2 border-transparent"
+              )}
+            >
+              <span
+                className={cn("text-lg flex-shrink-0 transition-transform group-hover:scale-110",
+                  active ? "text-[#ffdf19]" : "text-[#c8a800]"
                 )}
-              </div>
-
-              {!collapsed && hasSubmenu && isExpanded && (
-                <div className="ml-7 border-l border-white/10 py-1 animate-in slide-in-from-top-2 duration-200">
-                  {SUBMENU_MAP[cat.id].map((sub) => (
-                    <Link
-                      key={sub.href}
-                      href={sub.href}
-                      className="block px-5 py-1.5 text-xs font-semibold text-[#aaa496] transition hover:text-white hover:bg-white/5"
-                    >
-                      {sub.label} <span className="ml-1 text-[#777369]">{sub.bn}</span>
-                    </Link>
-                  ))}
+                style={{ filter: active ? "drop-shadow(0 0 5px #ffdf1966)" : undefined }}
+              >
+                {item.icon}
+              </span>
+              {!collapsed && (
+                <span className="truncate flex-1">{item.label}</span>
+              )}
+              {!collapsed && item.live && (
+                <span className="flex h-2 w-2 flex-shrink-0">
+                  <span className="absolute h-2 w-2 animate-ping rounded-full bg-[#ef4444] opacity-75" />
+                  <span className="relative h-2 w-2 rounded-full bg-[#ef4444]" />
+                </span>
+              )}
+              {/* Tooltip when collapsed */}
+              {collapsed && (
+                <div className="pointer-events-none absolute left-14 z-50 hidden whitespace-nowrap rounded-lg border border-[#2a2c30] bg-[#1b1c1e] px-2.5 py-1.5 text-xs font-bold text-white shadow-xl group-hover:block">
+                  {item.label}
                 </div>
               )}
-            </div>
+            </Link>
           );
         })}
       </nav>
 
-      {/* Extra items */}
-      <div className="border-t border-black/20 py-2 flex-shrink-0 max-h-[280px] overflow-y-auto no-scrollbar">
-        {EXTRA_ITEMS.map((item) => (
-          <Link key={`${item.id}-${item.href}`} href={item.href} className={rowClass(isActive(item.href))}>
-            <span className="text-lg flex-shrink-0">{item.emoji}</span>
-            {!collapsed && (
-              <span className="truncate">
-                {item.label} <span className="ml-1 text-xs text-[#a9a391]">{item.bn}</span>
-              </span>
-            )}
-          </Link>
-        ))}
-      </div>
-
-      {/* Promo card */}
+      {/* Bottom: auth buttons */}
       {!collapsed && (
-        <div className="m-4 mt-auto rounded-xl border border-[#ffdf19]/20 bg-gradient-to-br from-[#1b1c1e] to-[#242628] p-4 text-center shadow-lg relative overflow-hidden flex-shrink-0">
-          <div className="absolute -right-4 -top-4 opacity-10 text-6xl">🏏</div>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-[#ffdf19]">Official Partner</p>
-          <p className="mt-1 text-sm font-black text-white">Shakib Al Hasan</p>
-          <div className="mt-2 text-[10px] text-[#9ca3af]">Play with the champion. Safe, secure, and licensed in BD.</div>
+        <div className="flex-shrink-0 border-t border-black/30 p-3 space-y-2">
+          {!user ? (
+            <>
+              <button
+                onClick={() => openModal("login")}
+                className="w-full rounded-xl bg-gradient-to-b from-[#ffdf19] to-[#f4a700] py-2.5 text-xs font-black text-[#241a05] border-b-[2px] border-[#c28400] transition hover:brightness-110"
+              >
+                LOGIN
+              </button>
+              <button
+                onClick={() => openModal("register")}
+                className="w-full rounded-xl border border-[#3a3c42] bg-[#242628] py-2.5 text-xs font-black text-white transition hover:bg-[#2d2f35]"
+              >
+                SIGN UP
+              </button>
+            </>
+          ) : (
+            <Link
+              href="/dashboard"
+              className="flex items-center gap-2 rounded-xl border border-[#2a2c30] bg-[#1b1c1e] p-2.5 hover:border-[#ffdf19]/30 transition"
+            >
+              <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#008d5b] text-xs font-black text-white">
+                {user.username.charAt(0).toUpperCase()}
+              </div>
+              <div className="min-w-0">
+                <p className="truncate text-xs font-black text-white">{user.username}</p>
+                <p className="text-[10px] text-[#ffdf19] font-bold">৳ {user.balance.toLocaleString()}</p>
+              </div>
+            </Link>
+          )}
         </div>
       )}
-    </div>
+    </aside>
   );
 
   return (
     <>
-      {/* Desktop sidebar */}
-      <aside
-        className={cn(
-          "fixed left-0 top-0 z-40 h-full border-r border-black/25 transition-all duration-300 hidden lg:block",
-          collapsed ? "w-[63px]" : "w-[260px]"
-        )}
-      >
-        {sidebarContent}
-      </aside>
-
-      {/* Mobile sidebar overlay */}
-      {mobileOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
-          {/* Backdrop */}
-          <div
-            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
-            onClick={() => setMobileOpen(false)}
-          />
-          {/* Drawer */}
-          <div className="absolute left-0 top-0 h-full w-[280px] max-w-[85vw] animate-slide-in-left shadow-2xl">
-            {sidebarContent}
-          </div>
-        </div>
-      )}
+      {DesktopSidebar}
+      {mobileOpen && MobileDrawer}
     </>
   );
 }
