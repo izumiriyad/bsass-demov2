@@ -7,11 +7,13 @@ import { useAuth } from "./auth-provider";
 
 export function SessionGuard() {
   const { user } = useAuth();
-  const [online, setOnline] = useState(() => typeof navigator === "undefined" ? true : navigator.onLine);
+  const [online, setOnline] = useState(true); // start true to match SSR; sync in useEffect
   const [showBreak, setShowBreak] = useState(false);
   const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
+    // Sync actual online status after hydration
+    setOnline(navigator.onLine);
     const on = () => setOnline(true);
     const off = () => setOnline(false);
     window.addEventListener("online", on);

@@ -8,8 +8,18 @@ import { useAuth } from "./auth-provider";
 
 export function GlobalExperience() {
   const { user } = useAuth();
-  const [ageGate, setAgeGate] = useState(() => typeof window !== "undefined" && window.localStorage.getItem("bsl-age-verified") !== "yes");
-  const [cookieOpen, setCookieOpen] = useState(() => typeof window !== "undefined" && window.localStorage.getItem("bsl-cookie-consent") !== "yes");
+  const [ageGate, setAgeGate] = useState(false);
+  const [cookieOpen, setCookieOpen] = useState(false);
+
+  // Must run client-side only to avoid SSR/hydration mismatch
+  useEffect(() => {
+    if (window.localStorage.getItem("bsl-age-verified") !== "yes") {
+      setAgeGate(true);
+    }
+    if (window.localStorage.getItem("bsl-cookie-consent") !== "yes") {
+      setCookieOpen(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (!user || window.sessionStorage.getItem("bsl-live-toast") === "shown") return;
