@@ -206,13 +206,20 @@ export const SPORTS_EVENTS = [
 ];
 
 export const PROMOTIONS = [
-  { id: "welcome", title: "Welcome Bonus", subtitle: "100% Bonus up to ৳10,000", badge: "New Member", emoji: "🎁", gradient: ["#008d5b", "#006640"] as [string, string] },
-  { id: "sports-cashback", title: "Sports Cashback", subtitle: "Up to 5% Daily Cashback", badge: "Sports", emoji: "⚽", gradient: ["#065f46", "#0d9488"] as [string, string] },
-  { id: "slots-bonus", title: "Slots Bonus", subtitle: "Free Spins Every Day", badge: "Slots", emoji: "🎰", gradient: ["#1e1b4b", "#4c1d95"] as [string, string] },
-  { id: "cricket-promo", title: "Cricket Special", subtitle: "50% Bonus on First Cricket Bet", badge: "Cricket", emoji: "🏏", gradient: ["#0c4a6e", "#0369a1"] as [string, string] },
-  { id: "referral", title: "Refer & Earn", subtitle: "Get ৳500 for each friend referred", badge: "Referral", emoji: "🤝", gradient: ["#78350f", "#b45309"] as [string, string] },
-  { id: "vip", title: "VIP Club", subtitle: "Exclusive rewards for VIP members", badge: "VIP", emoji: "👑", gradient: ["#713f12", "#d97706"] as [string, string] },
+  { id: "welcome-bonus",    title: "100% Welcome Bonus",       subtitle: "Double your first deposit up to ৳10,000",          badge: "New Member",  emoji: "🎁", gradient: ["#008d5b", "#006640"] as [string, string], minDeposit: 500,  maxBonus: 10000, wagering: 10, validity: "7 days" },
+  { id: "sports-cashback",  title: "5% Daily Sports Cashback", subtitle: "Get cashback on all sports losses daily",           badge: "Sports",      emoji: "⚽", gradient: ["#065f46", "#0d9488"] as [string, string], minDeposit: 500,  maxBonus: 5000,  wagering: 3,  validity: "Daily" },
+  { id: "slots-bonus",      title: "Free Spins Bonanza",       subtitle: "50 free spins daily on selected JILI slots",        badge: "Slots",       emoji: "🎰", gradient: ["#1e1b4b", "#4c1d95"] as [string, string], minDeposit: 200,  maxBonus: 2000,  wagering: 25, validity: "Daily" },
+  { id: "cricket-promo",    title: "Cricket Special",          subtitle: "50% bonus on first cricket bet this season",        badge: "Cricket",     emoji: "🏏", gradient: ["#0c4a6e", "#0369a1"] as [string, string], minDeposit: 500,  maxBonus: 5000,  wagering: 8,  validity: "Season" },
+  { id: "referral",         title: "Refer & Earn ৳500",        subtitle: "Earn ৳500 for every friend who deposits",           badge: "Referral",    emoji: "🤝", gradient: ["#78350f", "#b45309"] as [string, string], minDeposit: 0,    maxBonus: 99999, wagering: 0,  validity: "No Expiry" },
+  { id: "vip-weekly",       title: "VIP Weekly Cashback",      subtitle: "15% cashback on weekly losses — no wagering",       badge: "VIP",         emoji: "👑", gradient: ["#713f12", "#d97706"] as [string, string], minDeposit: 1000, maxBonus: 50000, wagering: 0,  validity: "Weekly" },
+  { id: "bkash-deposit",    title: "bKash Reload Bonus",       subtitle: "10% extra on every bKash deposit on Fridays",       badge: "Deposit",     emoji: "💗", gradient: ["#7f1d1d", "#e2136e"] as [string, string], minDeposit: 500,  maxBonus: 3000,  wagering: 5,  validity: "Fridays" },
+  { id: "live-casino",      title: "Live Casino Welcome",      subtitle: "200% bonus up to ৳20,000 for new casino players",   badge: "Casino",      emoji: "♠️", gradient: ["#3b0011", "#8b0033"] as [string, string], minDeposit: 1000, maxBonus: 20000, wagering: 25, validity: "7 days" },
+  { id: "red-envelope",     title: "Red Envelope Rain 🧧",     subtitle: "Random cash drops during BD cricket nights",        badge: "Seasonal",    emoji: "🧧", gradient: ["#7f1d1d", "#991b1b"] as [string, string], minDeposit: 200,  maxBonus: 5000,  wagering: 5,  validity: "Event Only" },
+  { id: "daily-check-in",   title: "Daily Check-In Streak",    subtitle: "Login 7 days in a row and claim ৳500 super reward", badge: "Daily",       emoji: "📅", gradient: ["#0f172a", "#1e3a5f"] as [string, string], minDeposit: 0,    maxBonus: 500,   wagering: 5,  validity: "Ongoing" },
+  { id: "lucky-spin",       title: "Lucky Spin Wheel",         subtitle: "Spin daily for cash, free bets and bonus funds",    badge: "Bonus",       emoji: "🎡", gradient: ["#4c0519", "#9f1239"] as [string, string], minDeposit: 0,    maxBonus: 2000,  wagering: 10, validity: "Daily" },
+  { id: "new-game-launch",  title: "New Game Launch Bonus",    subtitle: "50 free spins on every new game launch",            badge: "New Game",    emoji: "🆕", gradient: ["#042f2e", "#115e59"] as [string, string], minDeposit: 500,  maxBonus: 1000,  wagering: 20, validity: "Launch Only" },
 ];
+
 
 export const PROVIDERS = [
   { name: "PRAGMATIC PLAY", emoji: "🎯" },
