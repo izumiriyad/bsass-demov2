@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/components/providers/auth-provider";
 import { useModal } from "@/components/providers/modal-provider";
 import { cn } from "@/lib/utils";
@@ -9,13 +9,14 @@ import { cn } from "@/lib/utils";
 const NAV_ITEMS = [
   { icon: "🏠", label: "Home",    href: "/",           live: false },
   { icon: "⚽", label: "Sports",  href: "/sports",     live: true  },
-  { icon: "🎰", label: "Slots",   href: "/slots",      live: false },
+  { icon: "♠️", label: "Casino",  href: "/casino",     live: false },
   { icon: "🎁", label: "Promos",  href: "/promotions", live: false },
   { icon: "👤", label: "Account", href: "/dashboard",  isAccount: true },
 ];
 
 export function MobileBottomNav() {
   const pathname = usePathname();
+  const router = useRouter();
   const { user } = useAuth();
   const { openModal } = useModal();
 
@@ -42,7 +43,7 @@ export function MobileBottomNav() {
             return (
               <button
                 key={item.label}
-                onClick={() => user ? window.location.assign("/dashboard") : openModal("login")}
+                onClick={() => user ? router.push("/dashboard") : openModal("login")}
                 className="relative flex flex-col items-center gap-1 px-3 py-1.5 min-w-[52px] transition-all active:scale-90"
               >
                 <div className={cn(
