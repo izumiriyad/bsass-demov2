@@ -11,51 +11,57 @@ import { cn } from "@/lib/utils";
 
 /* ─── bj88-style icon tile data ─── */
 const GAME_TILES = [
-  { id: "popular",     icon: "✦",  label: "POPULAR",    href: "/popular" },
-  { id: "sports",      icon: "⚽", label: "SPORTS",     href: "/sports", live: true },
-  { id: "cockfight",   icon: "🐓", label: "COCKFIGHT",  href: "/cockfighting" },
-  { id: "slots",       icon: "🎰", label: "SLOTS",      href: "/slots" },
-  { id: "casino",      icon: "♠️", label: "CASINO",     href: "/casino" },
-  { id: "table",       icon: "🎲", label: "TABLE",      href: "/table" },
-  { id: "fishing",     icon: "🎣", label: "FISHING",    href: "/fishing" },
-  { id: "lottery",     icon: "🎟️", label: "LOTTERY",   href: "/lottery" },
-  { id: "arcade",      icon: "🕹️", label: "ARCADE",    href: "/arcade" },
-  { id: "crash",       icon: "🚀", label: "CRASH",      href: "/crash" },
+  { id: "popular",   icon: "✦",  label: "POPULAR",   href: "/popular" },
+  { id: "sports",    icon: "⚽", label: "SPORTS",    href: "/sports",      live: true },
+  { id: "cockfight", icon: "🐓", label: "COCKFIGHT", href: "/cockfighting" },
+  { id: "slots",     icon: "🎰", label: "SLOTS",     href: "/slots" },
+  { id: "casino",    icon: "♠️", label: "CASINO",    href: "/casino" },
+  { id: "table",     icon: "🎲", label: "TABLE",     href: "/table" },
+  { id: "fishing",   icon: "🎣", label: "FISHING",   href: "/fishing" },
+  { id: "lottery",   icon: "🎟️", label: "LOTTERY",   href: "/lottery" },
+  { id: "arcade",    icon: "🕹️", label: "ARCADE",    href: "/arcade" },
+  { id: "crash",     icon: "🚀", label: "CRASH",     href: "/crash" },
 ];
 
 const EXTRA_TILES = [
-  { id: "promotions",  icon: "🎁", label: "Promotions",       href: "/promotions" },
-  { id: "vip",         icon: "👑", label: "VIP Club",         href: "/vip" },
-  { id: "leaderboard", icon: "🏆", label: "Leaderboard",      href: "/leaderboard" },
-  { id: "download",    icon: "📲", label: "Download",         href: "/app-download" },
-  { id: "affiliate",   icon: "🤝", label: "Affiliate",        href: "/affiliate" },
-  { id: "ambassador",  icon: "🌟", label: "Ambassador",       href: "/ambassador" },
-  { id: "referral",    icon: "👥", label: "Referral\nProgram",href: "/referral" },
-  { id: "help",        icon: "ℹ️", label: "Help Page",        href: "/help" },
+  { id: "promotions",  icon: "🎁", label: "Promotions",         href: "/promotions" },
+  { id: "vip",         icon: "👑", label: "VIP Club",           href: "/vip" },
+  { id: "tournaments", icon: "🏆", label: "Tournaments",        href: "/tournaments" },
+  { id: "winners",     icon: "💰", label: "Winner Board",       href: "/winners" },
+  { id: "leaderboard", icon: "🏅", label: "Leaderboard",        href: "/leaderboard" },
+  { id: "forum",       icon: "💬", label: "Forum",              href: "/forum" },
+  { id: "download",    icon: "📲", label: "Download",           href: "/app-download" },
+  { id: "affiliate",   icon: "🤝", label: "Affiliate",          href: "/affiliate" },
+  { id: "ambassador",  icon: "🌟", label: "Ambassador",         href: "/ambassador" },
+  { id: "referral",    icon: "👥", label: "Referral\nProgram",  href: "/referral" },
+  { id: "help",        icon: "ℹ️", label: "Help Page",          href: "/help" },
 ];
 
 /* ─── Desktop nav items (icon + label rows) ─── */
 const DESKTOP_NAV = [
   { icon: "🏠", label: "Home",         href: "/" },
-  { icon: "⭐", label: "Popular",      href: "/popular" },
-  { icon: "⚽", label: "Sports",       href: "/sports",      live: true },
-  { icon: "🐓", label: "Cockfighting", href: "/cockfighting" },
-  { icon: "🎰", label: "Slots",        href: "/slots" },
-  { icon: "♠️", label: "Casino",       href: "/casino" },
-  { icon: "🎲", label: "Table",        href: "/table" },
-  { icon: "🎣", label: "Fishing",      href: "/fishing" },
-  { icon: "🎟️", label: "Lottery",     href: "/lottery" },
-  { icon: "🕹️", label: "Arcade",      href: "/arcade" },
-  { icon: "🚀", label: "Crash",        href: "/crash" },
-  { icon: "🎁", label: "Promotions",   href: "/promotions" },
-  { icon: "👑", label: "VIP Club",     href: "/vip" },
-  { icon: "🏆", label: "Leaderboard",  href: "/leaderboard" },
-  { icon: "📲", label: "Download",     href: "/app-download" },
-  { icon: "🤝", label: "Affiliate",    href: "/affiliate" },
-  { icon: "🌟", label: "Ambassador",   href: "/ambassador" },
-  { icon: "💸", label: "Cashback",     href: "/cashback" },
-  { icon: "🧧", label: "Red Envelope", href: "/red-envelope" },
-  { icon: "💬", label: "Live Chat",    href: "/live-chat" },
+  { icon: "⭐", label: "Popular",       href: "/popular" },
+  { icon: "⚽", label: "Sports",        href: "/sports",       live: true },
+  { icon: "🐓", label: "Cockfighting",  href: "/cockfighting" },
+  { icon: "🎰", label: "Slots",         href: "/slots" },
+  { icon: "♠️", label: "Casino",        href: "/casino" },
+  { icon: "🎲", label: "Table",         href: "/table" },
+  { icon: "🎣", label: "Fishing",       href: "/fishing" },
+  { icon: "🎟️", label: "Lottery",       href: "/lottery" },
+  { icon: "🕹️", label: "Arcade",        href: "/arcade" },
+  { icon: "🚀", label: "Crash",         href: "/crash" },
+  { icon: "🎁", label: "Promotions",    href: "/promotions" },
+  { icon: "👑", label: "VIP Club",      href: "/vip" },
+  { icon: "🏆", label: "Tournaments",   href: "/tournaments" },
+  { icon: "💰", label: "Winner Board",  href: "/winners" },
+  { icon: "🏅", label: "Leaderboard",   href: "/leaderboard" },
+  { icon: "💬", label: "Forum",         href: "/forum" },
+  { icon: "📲", label: "Download",      href: "/app-download" },
+  { icon: "🤝", label: "Affiliate",     href: "/affiliate" },
+  { icon: "🌟", label: "Ambassador",    href: "/ambassador" },
+  { icon: "💸", label: "Cashback",      href: "/cashback" },
+  { icon: "🧧", label: "Red Envelope",  href: "/red-envelope" },
+  { icon: "💬", label: "Live Chat",     href: "/live-chat" },
 ];
 
 /* ─── Shared icon button for tiles ─── */
@@ -79,7 +85,8 @@ function Tile({ icon, label, href, onClick, active, live }: {
         </span>
       )}
       <span
-        className={cn("text-xl leading-none transition-transform group-hover:scale-110",
+        className={cn(
+          "text-xl leading-none transition-transform group-hover:scale-110",
           active ? "text-[#ffdf19]" : "text-[#c8a800]"
         )}
         style={{ filter: active ? "drop-shadow(0 0 6px #ffdf1988)" : "none" }}
@@ -100,11 +107,11 @@ function Tile({ icon, label, href, onClick, active, live }: {
 }
 
 export function Sidebar() {
-  const pathname = usePathname();
-  const router = useRouter();
+  const pathname  = usePathname();
+  const router    = useRouter();
   const { collapsed, mobileOpen, setMobileOpen } = useSidebar();
-  const { user } = useAuth();
-  const { openModal } = useModal();
+  const { user }        = useAuth();
+  const { openModal }   = useModal();
 
   // Auto-close on route change
   useEffect(() => { setMobileOpen(false); }, [pathname, setMobileOpen]);
@@ -130,9 +137,10 @@ export function Sidebar() {
       />
 
       {/* Drawer panel */}
-      <div className="absolute left-0 top-0 h-full w-[320px] max-w-[88vw] flex flex-col overflow-hidden animate-slide-in-left"
-        style={{ background: "linear-gradient(180deg, #16181d 0%, #1a1c22 100%)" }}>
-
+      <div
+        className="absolute left-0 top-0 h-full w-[320px] max-w-[88vw] flex flex-col overflow-hidden animate-slide-in-left"
+        style={{ background: "linear-gradient(180deg, #16181d 0%, #1a1c22 100%)" }}
+      >
         {/* ─ Header row ─ */}
         <div className="flex items-center justify-between px-4 pt-5 pb-4 flex-shrink-0 border-b border-[#2a2c30]">
           <Link href="/" onClick={() => setMobileOpen(false)} className="flex items-center gap-3">
@@ -155,6 +163,7 @@ export function Sidebar() {
 
         {/* Scrollable content */}
         <div className="no-scrollbar flex-1 overflow-y-auto">
+
           {/* ─ Login / Sign Up row (yellow, bj88 exact) ─ */}
           {!user && (
             <div className="mx-4 mt-4 flex gap-2">
@@ -209,9 +218,11 @@ export function Sidebar() {
             </div>
           )}
 
-          {/* ─ Sponsor bar (Bournemouth / BD team partner style) ─ */}
+          {/* ─ Sponsor bar (BD Cricket Board partner style) ─ */}
           <div className="mx-4 mt-3 flex items-center gap-3 rounded-xl border border-[#2a2c30] bg-[#1b1c1e] p-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#c8102e] to-[#8b0d22] text-xl font-black text-white shadow-md flex-shrink-0">🏏</div>
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#c8102e] to-[#8b0d22] text-xl font-black text-white shadow-md flex-shrink-0">
+              🏏
+            </div>
             <div>
               <p className="text-xs font-black text-[#ffdf19] leading-tight">OFFICIAL PARTNER</p>
               <p className="text-xs text-white font-bold">Bangladesh Cricket Board</p>
@@ -334,7 +345,8 @@ export function Sidebar() {
               )}
             >
               <span
-                className={cn("text-lg flex-shrink-0 transition-transform group-hover:scale-110",
+                className={cn(
+                  "text-lg flex-shrink-0 transition-transform group-hover:scale-110",
                   active ? "text-[#ffdf19]" : "text-[#c8a800]"
                 )}
                 style={{ filter: active ? "drop-shadow(0 0 5px #ffdf1966)" : undefined }}

@@ -4,15 +4,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/components/providers/auth-provider";
 import { useModal } from "@/components/providers/modal-provider";
-import { useSidebar } from "@/components/layout/sidebar-provider";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
-  { icon: "🏠", label: "Home",    href: "/" },
-  { icon: "⚽", label: "Sports",  href: "/sports",  live: true },
-  { icon: "♠️", label: "Casino",  href: "/casino" },
-  { icon: "🎰", label: "Slots",   href: "/slots" },
-  { icon: "👤", label: "Account", href: "/dashboard", isAccount: true },
+  { icon: "🏠", label: "Home",    href: "/",           live: false },
+  { icon: "⚽", label: "Sports",  href: "/sports",     live: true  },
+  { icon: "🎰", label: "Slots",   href: "/slots",      live: false },
+  { icon: "🎁", label: "Promos",  href: "/promotions", live: false },
+  { icon: "👤", label: "Account", href: "/dashboard",  isAccount: true },
 ];
 
 export function MobileBottomNav() {
@@ -65,7 +64,6 @@ export function MobileBottomNav() {
               href={item.href}
               className="relative flex flex-col items-center gap-1 px-3 py-1.5 min-w-[52px] transition-all active:scale-90"
             >
-              {/* Active background pill */}
               {active && (
                 <div className="absolute inset-x-1 top-0 h-0.5 rounded-full bg-[#ffdf19] shadow-[0_0_8px_rgba(255,223,25,0.6)]" />
               )}

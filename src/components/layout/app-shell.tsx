@@ -14,6 +14,7 @@ import { FomoToasts } from "./fomo-toasts";
 import { FloatingEnvelope } from "./floating-envelope";
 import { WelcomeModal } from "./welcome-modal";
 import { StickyLoginFooter } from "./sticky-login-footer";
+import { FloatingAppBadge } from "./floating-app-badge";
 
 export function AppShell({ children }: { children: ReactNode }) {
   const { collapsed } = useSidebar();
@@ -37,6 +38,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <FloatingEnvelope />
         <StickyLoginFooter />
         <WelcomeModal />
+        <FloatingAppBadge />
       </div>
     </div>
   );

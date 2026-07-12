@@ -50,17 +50,42 @@ const PAYMENT_METHODS = [
 ];
 
 const SOCIAL_LINKS = [
-  { name: "Facebook",  href: "#", emoji: "📘" },
-  { name: "YouTube",   href: "#", emoji: "📺" },
-  { name: "Telegram",  href: "#", emoji: "✈️" },
-  { name: "WhatsApp",  href: "#", emoji: "💬" },
-  { name: "Instagram", href: "#", emoji: "📸" },
-  { name: "Twitter",   href: "#", emoji: "🐦" },
+  { name: "Facebook",  href: "https://facebook.com", emoji: "📘", color: "#1877f2" },
+  { name: "YouTube",   href: "https://youtube.com",  emoji: "📺", color: "#ff0000" },
+  { name: "Telegram",  href: "https://t.me",          emoji: "✈️", color: "#0088cc" },
+  { name: "WhatsApp",  href: "https://wa.me",         emoji: "💬", color: "#25d366" },
+  { name: "Instagram", href: "https://instagram.com", emoji: "📸", color: "#e4405f" },
+  { name: "Twitter",   href: "https://x.com",         emoji: "🐦", color: "#1da1f2" },
 ];
+
+const CERT_BADGES = [
+  { label: "GamCare",          sub: "Certified",           color: "#dc2626", bg: "#1a0000",   icon: "🛡️" },
+  { label: "BeGambleAware",    sub: "Partner",             color: "#f97316", bg: "#1a0800",   icon: "🎯" },
+  { label: "18+",              sub: "Age Verified",         color: "#ffdf19", bg: "#1c1400",   icon: "🔞" },
+  { label: "SSL Secured",      sub: "256-bit Encryption",  color: "#22c55e", bg: "#001a08",   icon: "🔒" },
+  { label: "PAGCOR",           sub: "Licensed Operator",   color: "#60a5fa", bg: "#00001a",   icon: "⚖️" },
+  { label: "Anjouan",          sub: "Gaming License",      color: "#a855f7", bg: "#0f0015",   icon: "📜" },
+  { label: "Anti-Money",       sub: "AML Compliant",        color: "#34d399", bg: "#001510",   icon: "🏦" },
+];
+
+const ALT_DOMAINS = ["bsl999.live", "bslgaming.app", "bslbet.io", "bslgame.net"];
 
 export function Footer() {
   return (
     <footer className="border-t border-[#1e2026] bg-[#0d0f10] pb-20 pt-10 lg:pb-10">
+      {/* Alternate Domain Notice */}
+      <div className="border-b border-[#ef4444]/20 bg-[#ef4444]/5 px-4 py-2.5">
+        <p className="text-center text-[10px] text-[#9ca3af]">
+          <span className="font-black text-[#ef4444]">⚠️ Domain Blocked?</span>{" "}
+          Use our official backup domains:{" "}
+          {ALT_DOMAINS.map((d, i) => (
+            <span key={d}>
+              <a href={`https://${d}`} className="font-bold text-[#ffdf19] hover:underline">{d}</a>
+              {i < ALT_DOMAINS.length - 1 && " · "}
+            </span>
+          ))}
+        </p>
+      </div>
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
 
         {/* Top section */}
@@ -159,6 +184,11 @@ export function Footer() {
           </div>
           <div className="mt-3 flex flex-wrap items-center gap-4">
             <p className="text-[10px] text-[#6b7280]">⚡ Instant deposits · Same-day withdrawals · Zero fees for bKash/Nagad</p>
+            <div className="flex flex-wrap gap-2 ml-auto">
+              {["Crypto BTC", "USDT", "ETH"].map(c => (
+                <span key={c} className="rounded-md border border-[#2a2c30] px-2.5 py-1 text-[9px] font-bold text-[#6b7280]">{c}</span>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -177,6 +207,29 @@ export function Footer() {
               <Link href="/self-assessment" className="shrink-0 rounded-lg border border-[#2a2c30] bg-[#1b1c1e] px-3 py-1.5 text-[9px] font-black text-[#9ca3af] hover:text-white transition">Self-Assess</Link>
             </div>
           </div>
+        </div>
+
+        {/* Certification Badges */}
+        <div className="mt-6 rounded-2xl border border-[#1e2026] bg-[#111315] p-4">
+          <p className="mb-3 text-[10px] font-black uppercase tracking-widest text-[#6b7280]">Licenses &amp; Certifications</p>
+          <div className="flex flex-wrap gap-2">
+            {CERT_BADGES.map((badge) => (
+              <div
+                key={badge.label}
+                className="flex items-center gap-2 rounded-lg border px-3 py-2"
+                style={{ borderColor: `${badge.color}25`, background: badge.bg }}
+              >
+                <span className="text-base">{badge.icon}</span>
+                <div>
+                  <p className="text-[10px] font-black leading-none" style={{ color: badge.color }}>{badge.label}</p>
+                  <p className="text-[8px] text-[#6b7280] leading-none mt-0.5">{badge.sub}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="mt-3 text-[10px] text-[#4b5563]">
+            BSL Gaming operates under a legitimate gaming license. All games are fair and audited by independent third-party labs. We are committed to player protection and responsible gambling.
+          </p>
         </div>
 
         {/* Bottom bar */}
