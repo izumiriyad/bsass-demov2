@@ -92,10 +92,14 @@ export function Header() {
 
       <label className="ml-5 hidden h-10 max-w-[380px] flex-1 items-center rounded-full border border-white/5 bg-black/20 px-4 text-[#858277] focus-within:border-[#ffdf19]/50 xl:flex">
         <Search size={16} />
-        <input className="w-full bg-transparent px-3 text-sm text-white outline-none placeholder:text-[#858277]" placeholder="Search cricket, football, casino, slots..." onKeyDown={(e) => { if (e.key === "Enter") router.push(`/games?search=${encodeURIComponent((e.target as HTMLInputElement).value)}`); }} />
+        <input className="w-full bg-transparent px-3 text-sm text-white outline-none placeholder:text-[#858277]" placeholder="Search cricket, football, casino, slots..." onKeyDown={(e) => { if (e.key === "Enter") router.push(`/search?q=${encodeURIComponent((e.target as HTMLInputElement).value)}`); }} />
       </label>
 
       <div className="ml-auto flex items-center gap-2 sm:gap-3">
+        {/* Mobile search icon */}
+        <button onClick={() => router.push("/search")} className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/5 text-[#d8d5c7] transition hover:bg-white/10 xl:hidden" aria-label="Search">
+          <Search size={18} />
+        </button>
         {!user ? (
           <>
             <button onClick={() => openModal("login")} className="rounded-lg bg-gradient-to-b from-[#ffdf19] to-[#f5a400] px-5 py-2.5 text-sm font-bold text-[#241a05] shadow-lg transition hover:brightness-110 active:scale-[.98]">Login</button>

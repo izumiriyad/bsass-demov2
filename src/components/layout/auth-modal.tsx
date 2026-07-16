@@ -181,10 +181,21 @@ function WalletModal({ action }: { action: "deposit" | "withdraw" }) {
     if (!amount || Number(amount) < (selMethod?.min ?? 500)) { toast.error(`Minimum ${action}: ৳${selMethod?.min ?? 500}`); return; }
     if (!accountNo) { toast.error("মোবাইল নম্বর দিন"); return; }
     if (action === "deposit" && !txId) { toast.error("Transaction ID দিন"); return; }
+    if (action === "withdraw" && Number(amount) > user.balance) { toast.error("অপর্যাপ্ত ব্যালেন্স"); return; }
     setLoading(true);
-    await new Promise(r => setTimeout(r, 1800));
-    setLoading(false); setDone(true);
-    toast.success(action === "deposit" ? `৳${Number(amount).toLocaleString()} জমার আবেদন সফল!` : `৳${Number(amount).toLocaleString()} উত্তোলনের আবেদন সফল!`);
+    try {
+      const res = await fetch("/api/wallet", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action, amount: Number(amount), method: selectedMethod }),
+      });
+      const data = await res.json();
+      if (!res.ok) { toast.error(data.error || "Transaction failed"); setLoading(false); return; }
+      setDone(true);
+      toast.success(action === "deposit" ? `৳${Number(amount).toLocaleString()} জমার আবেদন সফল! 🎉` : `৳${Number(amount).toLocaleString()} উত্তোলনের আবেদন সফল! ✅`);
+    } catch {
+      toast.error("সার্ভার ত্রুটি। আবার চেষ্টা করুন।");
+    } finally { setLoading(false); }
   };
 
   if (done) return (

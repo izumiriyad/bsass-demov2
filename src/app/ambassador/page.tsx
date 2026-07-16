@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
+"use client";
+
 import Link from "next/link";
 import { Star, Camera, Users, Gift } from "lucide-react";
 
-export const metadata: Metadata = { title: "Ambassador Program – BSL Gaming" };
 
 const BENEFITS = [
   { icon: "💰", title: "Monthly Salary", body: "৳20,000–৳100,000/month based on your audience size and engagement rate." },
