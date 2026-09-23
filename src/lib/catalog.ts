@@ -174,12 +174,12 @@ export const SPORTS_GAMES_LIST: BSLGame[] = [
 ];
 
 export const CRICKET_GAMES_LIST: BSLGame[] = [
-  g("cric1", "BPL T20", "BSL Cricket", "cricket", "#065f46", "#10b981", "🏏", { isHot: true, players: 5500 }),
-  g("cric2", "IPL", "BSL Cricket", "cricket", "#7c0000", "#991b1b", "🏏", { isHot: true, players: 8200 }),
-  g("cric3", "ICC World Cup", "BSL Cricket", "cricket", "#0c4a6e", "#1d4ed8", "🏆", { players: 6700 }),
-  g("cric4", "Bangladesh vs India", "BSL Cricket", "cricket", "#166534", "#15803d", "🇧🇩", { isNew: true, players: 4200 }),
-  g("cric5", "T20 World Cup", "BSL Cricket", "cricket", "#713f12", "#d97706", "🏆", { players: 5800 }),
-  g("cric6", "Asia Cup", "BSL Cricket", "cricket", "#2e1065", "#5b21b6", "🏆", { players: 3900 }),
+  g("cricket-bpl", "BPL T20", "BSL Cricket", "cricket", "#065f46", "#10b981", "🏏", { isHot: true, players: 5500 }),
+  g("cricket-ipl", "IPL", "BSL Cricket", "cricket", "#7c0000", "#991b1b", "🏏", { isHot: true, players: 8200 }),
+  g("cricket-icc-world-cup", "ICC World Cup", "BSL Cricket", "cricket", "#0c4a6e", "#1d4ed8", "🏆", { players: 6700 }),
+  g("cricket-bd-vs-india", "Bangladesh vs India", "BSL Cricket", "cricket", "#166534", "#15803d", "🇧🇩", { isNew: true, players: 4200 }),
+  g("cricket-t20-world-cup", "T20 World Cup", "BSL Cricket", "cricket", "#713f12", "#d97706", "🏆", { players: 5800 }),
+  g("cricket-asia-cup", "Asia Cup", "BSL Cricket", "cricket", "#2e1065", "#5b21b6", "🏆", { players: 3900 }),
 ];
 
 export const COCKFIGHTING_GAMES: BSLGame[] = [
